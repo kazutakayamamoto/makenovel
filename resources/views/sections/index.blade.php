@@ -37,10 +37,14 @@
             @endif            
         </div>
     </div>
-    {!! Form::open(['route' => 'sections.store']) !!}
-    <div class="form-group">
-        {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => 'col-md-12']) !!}
-        {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+    <div class="row">
+        <div class="box2 col-md-12">
+            {!! Form::open(['route' => 'sections.store']) !!}
+            <div class="form-group box3">  
+                {!! Form::textarea('content', old('content'), ['class' => 'form-control', 'rows' => 'col-md-12']) !!}
+                {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+            </div>
+            {!! Form::close() !!}
+        </div>
     </div>
-    {!! Form::close() !!}
 @endsection
