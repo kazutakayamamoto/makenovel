@@ -1,0 +1,18 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Nice extends Model
+{
+    protected $fillable=['section_id','user_id'];
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
+    public function section(){
+        return $this->belongsTo(Section::class);
+    }
+    
+
+}
