@@ -3,11 +3,32 @@
 .box2{
     overflow-y: scroll;
     height:500px;
+    width:auto;
     border : solid 1px #333 ; 
 }
 .box3{
     margin-top: 20px;
     width:500px;
     height:auto;
+    max-height: 350px;
+    overflow-y: scroll;    
     border : solid 1px #333 ; 
+}
+.box5{
+    overflow-y: scroll;
+    height:auto;
+    border : solid 1px #333 ;     
+}
+.more2{
+  display: none;
+}
+.morefix2:target + .more2{
+  display: block;
+}
+.morefix2{
+    position: fixed;
+    top: 0;
+}
+.underplot_content{
+    display: none;
 }

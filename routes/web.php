@@ -18,8 +18,12 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
-
 Route::resource('sections', 'SectionsController');
+Route::resource('chats', 'ChatsController');
 
 Route::post('{id}', 'SectionNiceController@store')->name('section.nice');
 Route::delete('{id}', 'SectionNiceController@destroy')->name('section.unnice');
+
+Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
+
+Route::get('/result/ajax', 'ChatsController@getData');

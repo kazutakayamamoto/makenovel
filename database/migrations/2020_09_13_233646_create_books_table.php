@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSectionsTable extends Migration
+class CreateBooksTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,14 @@ class CreateSectionsTable extends Migration
      */
     public function up()
     {
-        Schema::create('sections', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('section_number');
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('books_id');
-            $table->string('content',300);
-            $table->string('under_plot',300)->nullable();
+            $table->string('title',30);
+            $table->string('subject',600);
+            $table->unsignedBigInteger('section_nice_number');
+            $table->unsignedBigInteger('setting_nice_number');
             $table->timestamps();
-            //$table->foreign('user_id')->references('id')->on('users');
-  
-            
         });
     }
 
@@ -34,6 +31,6 @@ class CreateSectionsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sections');
+        Schema::dropIfExists('books');
     }
 }

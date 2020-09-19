@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Chat;
 use Illuminate\Http\Request;
-use App\Nice;
 
-class SectionNiceController extends Controller
+class ChatsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,7 +15,12 @@ class SectionNiceController extends Controller
     {
         //
     }
-
+    public function getData()
+    {
+        $chats = Chat::orderBy('created_at', 'desc')->get();
+        $json = ["chats" => $chats];
+        return response()->json($json);
+    }
     /**
      * Show the form for creating a new resource.
      *
@@ -33,14 +37,14 @@ class SectionNiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id)
+    public function store(Request $request)
     {
-        Nice::create([
-            'section_id'=>$id,
-            'user_id'=>\Auth::id(),
-        ]);
-        //return redirect('/');
-        return back();
+        $new_section = new Chat;
+        $new_section->user_id = \Auth::id(); 
+        $new_section->books_id = 1; 
+        $new_section->content = $request->content;
+        $new_section->save();
+        return redirect('/');        
     }
 
     /**
@@ -85,11 +89,6 @@ class SectionNiceController extends Controller
      */
     public function destroy($id)
     {
-        $nice=Nice::where('section_id',$id)->where('user_id',\Auth::id())->first();
-        $nice->delete();
-        //return redirect('/');
-        return back();
+        //
     }
-    
-
 }

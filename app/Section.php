@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Section extends Model
 {
-    protected $fillable = ['content','section_number'];
+    protected $fillable = ['content','section_number','books_id','under_plot'];
 
     /**
      * この投稿を所有するユーザ。（ Userモデルとの関係を定義）
@@ -15,7 +15,7 @@ class Section extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function nices()
     {
         return $this->hasMany(Nice::class,'section_id');
@@ -26,4 +26,5 @@ class Section extends Model
     public function count_nice($sectionId){
         return Nice::where('section_id',$sectionId)->count();
     }
+
 }
