@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<script type="module" src="/js/hyouji.js"></script>
+<script type="module" src="/js/index.js"></script>
     <div class="row">
         <div class="box2 col-md-6">
             @for ($i = 1; $i < $max_section_number; $i++)
@@ -116,5 +116,6 @@
         {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
         {!! Form::close() !!}
         </div>
+        
         @endif
 @endsection

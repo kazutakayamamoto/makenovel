@@ -22,10 +22,6 @@ $(function() {
     });
 });
 
-$(function() {
-    get_data();
-});
-
 function get_data() {
     $.ajax({
         url: "result/ajax/",
@@ -34,7 +30,7 @@ function get_data() {
             $("#comment-data")
                 .find(".comment-visible")
                 .remove();
-        
+            console.log(data);
             for (var i = 0; i < data.chats.length; i++) {
                 var html = `
                             <div class="media comment-visible">
@@ -52,5 +48,10 @@ function get_data() {
         }
     });
 
-    setTimeout("get_data()", 5000);
+    setTimeout(get_data, 5000);
 }
+
+$(function() {
+    get_data();
+});
+
