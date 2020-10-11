@@ -18,12 +18,25 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
+Route::get('settings', 'WordsController@index');
 Route::resource('sections', 'SectionsController');
 Route::resource('chats', 'ChatsController');
+Route::resource('words', 'WordsController');
 
 Route::post('{id}', 'SectionNiceController@store')->name('section.nice');
 Route::delete('{id}', 'SectionNiceController@destroy')->name('section.unnice');
 
+Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice');
+Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice');
+
 Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
 
 Route::get('/result/ajax', 'ChatsController@getData');
+Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
+
+Route::group(['prefix' => '/words/{id}'], function () {
+    Route::resource('settings', 'SettingsController');
+});
+Route::group(['prefix' => '/words/chat/{id}'], function () {
+    Route::resource('settingchats', 'SettingChatsController');
+});

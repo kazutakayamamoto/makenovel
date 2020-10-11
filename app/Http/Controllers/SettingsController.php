@@ -1,10 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Chat;
-use Illuminate\Http\Request;
 
-class ChatsController extends Controller
+use Illuminate\Http\Request;
+use App\Setting;
+class SettingsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,14 +15,7 @@ class ChatsController extends Controller
     {
         //
     }
-    public function getData()
-    {
-        $chats = Chat::orderBy('created_at', 'desc')->get();
-        
-        $json = ["chats" => $chats];
-        return response()->json($json);
-    }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -39,14 +32,18 @@ class ChatsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$id)
     {
-        $new_section = new Chat;
-        $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = 1; 
-        $new_section->content = $request->content;
-        $new_section->save();
-        return redirect('/');        
+        $request->validate([
+            'content' => 'required|max:100',
+        ]);
+        $new_setting = new Setting;
+        $new_setting->word_id = $id; 
+        $new_setting->user_id = \Auth::id(); 
+        $new_setting->content=$request->content;
+        $new_setting->save();
+        return back();
+        
     }
 
     /**

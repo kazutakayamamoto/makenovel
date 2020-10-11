@@ -20,6 +20,9 @@ $(function() {
     $('.underplot_show').click(function(){
       $(this).find('.underplot_content').toggle();
     });
+    $('.show_plus_section').click(function(){
+      $('.plus_section').toggle();
+    });
 });
 
 function get_data() {
@@ -34,8 +37,10 @@ function get_data() {
             for (var i = 0; i < data.chats.length; i++) {
                 var html = `
                             <div class="media comment-visible">
-                                <div class="media-body comment-body">
-                                    <span class="comment-body-content" id="content">${data.chats[i].content}</span>
+                                <div class="media-body comment-body chat_child">
+                                    <span class="chat_id">${data.chats[i].id} </span>
+                                    <span class="chat_user">${data.chats[i].user_id}</span><br>
+                                    <span id="content">${data.chats[i].content}</span>
                                 </div>
                             </div>
                         `;
@@ -55,4 +60,11 @@ function get_data() {
 $(function() {
     get_data();
 });
+$(function(){
 
+  $('#count_content').keyup(function(){
+    var count = $(this).val().length;
+    $('#inputlength').text(count);
+  });
+
+});

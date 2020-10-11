@@ -41,7 +41,11 @@
     @if (Auth::id())
         <div class="row">
             <div class="box2 col-md-12">
+                @if (count($sections) > 0)
                 {!! Form::open(['route' => ['section.store2', $section->section_number]]) !!}
+                @else
+                {!! Form::open(['route' => ['section.store2', 0]]) !!}
+                @endif
                 <div class="form-group box3">  
                     {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
                     {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}

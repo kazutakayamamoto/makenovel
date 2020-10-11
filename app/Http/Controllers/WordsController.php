@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Chat;
+use App\Word;
+use App\Setting;
 use Illuminate\Http\Request;
 
-class ChatsController extends Controller
+class WordsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -13,16 +14,13 @@ class ChatsController extends Controller
      */
     public function index()
     {
-        //
+        $words = Word::all();
+        // メッセージ一覧ビューでそれを表示
+        return view('words.index', [
+            'words' => $words,
+        ]);
     }
-    public function getData()
-    {
-        $chats = Chat::orderBy('created_at', 'desc')->get();
-        
-        $json = ["chats" => $chats];
-        return response()->json($json);
-    }
-    
+
     /**
      * Show the form for creating a new resource.
      *
@@ -41,12 +39,16 @@ class ChatsController extends Controller
      */
     public function store(Request $request)
     {
-        $new_section = new Chat;
-        $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = 1; 
-        $new_section->content = $request->content;
-        $new_section->save();
-        return redirect('/');        
+        // バリデーション
+        $request->validate([
+            'name' => 'required|max:20',
+        ]);
+        
+        $new_word = new Word;
+        $new_word->book_id = 1; 
+        $new_word->name=$request->name;
+        $new_word->save();
+        return back();
     }
 
     /**
@@ -57,7 +59,15 @@ class ChatsController extends Controller
      */
     public function show($id)
     {
-        //
+        $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->get();
+        $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
+        $word = Word::where('id',$id)->first();
+        // メッセージ一覧ビューでそれを表示
+        return view('words.show', [
+            'word' => $word,
+            'settings_adapt'=>$settings_adapt,
+            'settings_stay'=>$settings_stay,
+        ]);
     }
 
     /**
