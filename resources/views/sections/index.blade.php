@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.js"></script>
     {!! link_to_route('words.index', 'この小説の設定一覧', ['class' => 'btn btn-primary']) !!}
+    {!! link_to_route('section_trees.index', 'セクションツリー', ['class' => 'btn btn-primary']) !!}
     <div class="row">
         <div class="box2 col-md-6">
             <p>採用された文章一覧</p>
@@ -36,6 +37,9 @@
         </div>
 
         <div class="box2 col-md-6">
+            @if(!empty($section_tree))
+                この節では{!! $section_tree->content !!}について書いてください。
+            @endif
             <div>
             <a href="/?sort=new">新しい順</a>
             <a href="/?sort=nice">いいね順</a>
@@ -44,14 +48,16 @@
             
             <div class="row plus_section">
                 <div class="box5 col-md-12">
+                    <br>
                     {!! Form::open(['route' => 'sections.store']) !!}
                     <div class="form-group">  
-                            <textarea name="content" cols="50" rows="10" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                            <textarea name="content" cols="60" rows="10" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                             <input type="text" id="xxxx">/300
                     </div>
                     <p><input type="checkbox" name="check" value="prop" id="prop">：伏線アリならチェックを入れる</p>
-                    <div class="form-group box4">  
-                        {!! Form::textarea('under_plot', old('content'), ['class' => 'form-control']) !!}
+                    <div class="form-group box4">
+                            <textarea name="under_plot" cols="70" rows="10" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                            <input type="text" id="yyyy">/300  
                     </div>
                  </div>
             {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
@@ -80,21 +86,23 @@
                                         
                                         {{-- 投稿内容 --}}
                                         <p class="mb-0">{!! nl2br(e($section->content)) !!}</p>
-                                            @if (Auth::id())
-                                                @if ($section->is_nice($section->id,Auth::id()))
-                                                    {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
-                                                        <button class="nice unnice" type="button submit">いいねを外す</button>
-                                                    {!! Form::close() !!}
-                                                @else
-                                                    {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
-                                                        <button class="nice" type="button submit">いいね</button>
-                                                    {!! Form::close() !!}
-                                                @endif
-                                            @endif
+
                                         @if(!empty($section->under_plot))
                                                 <a class="underplot_show"><span>伏線を見る</span>
                                                 <p class="underplot_content">{!! nl2br(e($section->under_plot)) !!}</p>
                                                 </a>
+                                        @endif
+                                        
+                                        @if (Auth::id())
+                                            @if ($section->is_nice($section->id,Auth::id()))
+                                                {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
+                                                    <button class="nice unnice" type="button submit">いいねを外す</button>
+                                                {!! Form::close() !!}
+                                            @else
+                                                {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
+                                                    <button class="nice" type="button submit">いいね</button>
+                                                {!! Form::close() !!}
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -110,7 +118,8 @@
 
         <!--チャットここから-->
         <div class="row">
-            <div class="col-md-12"> 
+            <div class="col-md-12">
+            最新の10件のチャット
                 <div id="comment-data"></div>
                 @if (Auth::id())
                     <div class="col-md-6">
@@ -122,6 +131,7 @@
                     {!! Form::close() !!}
                     </div>
                 @endif
+                {!! link_to_route('chats.index', '過去のチャット', ['class' => 'btn btn-primary']) !!}
             </div>
         </div>
 @endsection

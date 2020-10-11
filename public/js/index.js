@@ -66,5 +66,5 @@ $(function(){
     var count = $(this).val().length;
     $('#inputlength').text(count);
   });
-
+  
 });

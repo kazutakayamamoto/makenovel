@@ -8,46 +8,13 @@ use App\Nice;
 use App\UnderPlot;
 use Illuminate\Http\Request;
 
-class SectionsController extends Controller
+class SectionTreesController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    
     public function index(Request $request)
     {
-        // メッセージ一覧を取得
-        $sections = Section::withCount('nices')->orderBy('nices_count','desc')->get();
-        $max_section_number=Section::max('section_number');
-        
-        if(!empty($sections->where('section_number',$max_section_number)->first())){
-            $a= Nice::where('section_id',$sections->where('section_number',$max_section_number)->first()->id)->count();
-        }else{
-            $a=0;
-        }
-        if($a>1){
-            $user = User::first();
-            $user->sections()->create([
-                'books_id'=>1,
-                'content' => 'いいねが2を超えたので新しいセクションが作られました。',
-                'section_number'=>$max_section_number+1,
-            ]);
-            return redirect('/');
-        }
-        if($request->sort=='new'){
-            $new_sections=Section::where('section_number',$max_section_number)->orderBy('created_at','desc')->get();
-        }else{
-            $new_sections=Section::where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->get();
-        }
-        $section_tree=SectionTree::where('section_number',$max_section_number)->first();
-        // メッセージ一覧ビューでそれを表示
-        return view('sections.index', [
-            'sections' => $sections,
-            'max_section_number'=>$max_section_number,
-            'new_sections'=>$new_sections,
-            'section_tree'=>$section_tree,
+        $section_trees = SectionTree::all();
+        return view('section_tree.index', [
+            'section_trees' => $section_trees,
         ]);
     }
     /**
@@ -71,20 +38,18 @@ class SectionsController extends Controller
         // バリデーション
         $request->validate([
             'content' => 'required|max:300',
-            'under_plot'=>'max:300',
         ]);
         
-        $max_section_number=Section::max('section_number');
-        if($max_section_number==null)$max_section_number=1;
+        $max_section_number=SectionTree::max('section_number');
+        if($max_section_number==null)$max_section_number=0;
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $new_section = new Section;
+        $new_section = new SectionTree;
         $new_section->user_id = \Auth::id(); 
         $new_section->books_id = 1; 
         $new_section->content = $request->content;
-        $new_section->section_number=$max_section_number;
-        $new_section->under_plot = $request->under_plot;
+        $new_section->section_number=$max_section_number+1;
         $new_section->save();
-        return redirect('/');
+        return back();
     }
 
     public function store2(Request $request,$id)
@@ -95,11 +60,12 @@ class SectionsController extends Controller
         ]);
         $max_section_number=Section::max('section_number');
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $request->user()->sections()->create([
-            'content' => $request->content,
-            'section_number'=>$id,
-        ]);
-
+        $new_section = new SectionTree;
+        $new_section->user_id = \Auth::id(); 
+        $new_section->books_id = 1; 
+        $new_section->content = $request->content;
+        $new_section->section_number=$id;
+        $new_section->save();
         return back();
     }
 
@@ -113,11 +79,9 @@ class SectionsController extends Controller
     {
         // メッセージ一覧を取得
         $sections = Section::where('section_number',$id)->withCount('nices')->orderBy('nices_count','desc')->get();
-        $section_tree=SectionTree::where('section_number',$id)->first();
         // メッセージ一覧ビューでそれを表示
         return view('sections.show', [
             'sections' => $sections,
-            'section_tree' => $section_tree,
         ]);        
     }
 

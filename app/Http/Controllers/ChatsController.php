@@ -13,11 +13,14 @@ class ChatsController extends Controller
      */
     public function index()
     {
-        //
+        $chats = Chat::orderBy('created_at', 'desc')->paginate(15);
+        return view('chats.index', [
+            'chats' => $chats,
+        ]);                
     }
     public function getData()
     {
-        $chats = Chat::orderBy('created_at', 'desc')->get();
+        $chats = Chat::orderBy('created_at', 'desc')->take(10)->get();
         
         $json = ["chats" => $chats];
         return response()->json($json);

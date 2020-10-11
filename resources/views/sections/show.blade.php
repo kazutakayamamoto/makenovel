@@ -4,6 +4,9 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     
     <div class="row">
+        @if(!empty($section_tree))
+            この節では{!! $section_tree->content !!}について書いてください。
+        @endif
         <div class="box2 col-md-12">
             @foreach ($sections as $section)
                 @if (count($sections) > 0)

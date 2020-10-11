@@ -22,9 +22,10 @@ Route::get('settings', 'WordsController@index');
 Route::resource('sections', 'SectionsController');
 Route::resource('chats', 'ChatsController');
 Route::resource('words', 'WordsController');
+Route::resource('section_trees', 'SectionTreesController');
 
-Route::post('{id}', 'SectionNiceController@store')->name('section.nice');
-Route::delete('{id}', 'SectionNiceController@destroy')->name('section.unnice');
+Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice');
+Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice');
 
 Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice');
 Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice');
