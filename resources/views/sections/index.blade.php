@@ -8,7 +8,7 @@
     <div class="row">
         <div class="box2 col-md-6">
             <p>採用された文章一覧</p>
-            {!! link_to_route('sections.show', 'この先で使ってほしい文章', ['section'=>0], ['class' => 'btn btn-primary']) !!}<br>
+            {!! link_to_route('section.future_show', 'この先で使ってほしい展開・文章', ['section'=>0], ['class' => 'btn btn-primary']) !!}<br>
             @for ($i = 1; $i < $max_section_number; $i++)
                 @foreach ($sections->where('section_number',$i) as $section)
                     @if (count($sections) > 0)
@@ -67,7 +67,7 @@
             
             </div>
             <div class="box2_under">
-            <div class="up"><i class="fas fa-2x fa-chevron-up"></i></div>
+            <!--<div class="up"><i class="fas fa-2x fa-chevron-up"></i></div>-->
             @foreach ($new_sections as $section)
                 @if (count($new_sections) > 0)
                     <ul class="list-unstyled">
@@ -86,14 +86,13 @@
                                         
                                         {{-- 投稿内容 --}}
                                         <p class="mb-0">{!! nl2br(e($section->content)) !!}</p>
-
+                                        <br>
                                         @if(!empty($section->under_plot))
                                                 <a class="underplot_show"><span>伏線を見る</span>
                                                 <p class="underplot_content">{!! nl2br(e($section->under_plot)) !!}</p>
                                                 </a>
                                         @endif
                                         
-                                        @if (Auth::id())
                                             @if ($section->is_nice($section->id,Auth::id()))
                                                 {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
                                                     <button class="nice unnice" type="button submit">いいねを外す</button>
@@ -103,7 +102,6 @@
                                                     <button class="nice" type="button submit">いいね</button>
                                                 {!! Form::close() !!}
                                             @endif
-                                        @endif
                                     </div>
                                 </div>
                             </li>
@@ -120,18 +118,21 @@
         <div class="row">
             <div class="col-md-12">
             最新の10件のチャット
-                <div id="comment-data"></div>
+                <div id="comment-data">
+
+                </div>
+                {!! link_to_route('chats.index', '過去のチャット', ['class' => 'btn btn-primary']) !!}
                 @if (Auth::id())
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         {!! Form::open(['route' => 'chats.store']) !!}
-                        <div class="form-group box3">
-                            {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
+                        <div class="form-group">
+                            <textarea name="content" cols="30" rows="2" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
+                            <input type="text" id="zzzz">/300
                         </div>
-                    {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+                    {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                     {!! Form::close() !!}
                     </div>
                 @endif
-                {!! link_to_route('chats.index', '過去のチャット', ['class' => 'btn btn-primary']) !!}
             </div>
         </div>
 @endsection

@@ -14,15 +14,38 @@ class ChatsController extends Controller
     public function index()
     {
         $chats = Chat::orderBy('created_at', 'desc')->paginate(15);
+        foreach($chats as $chat){
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
         return view('chats.index', [
             'chats' => $chats,
         ]);                
     }
+    
     public function getData()
     {
         $chats = Chat::orderBy('created_at', 'desc')->take(10)->get();
-        
+        foreach($chats as $chat){
+            $name=$chat->user->name;
+            $chat->name=$name;
+        }
         $json = ["chats" => $chats];
+        return response()->json($json);
+    }
+    
+    public function getReply($id)
+    {
+        $chat = Chat::where('id',$id)->first();
+        $name=$chat->user->name;
+        $chat->name=$name;
+        $json = ["chat" => $chat];
         return response()->json($json);
     }
     
@@ -51,7 +74,6 @@ class ChatsController extends Controller
         $new_section->save();
         return redirect('/');        
     }
-
     /**
      * Display the specified resource.
      *
@@ -60,7 +82,23 @@ class ChatsController extends Controller
      */
     public function show($id)
     {
-        //
+        $chat_mother = Chat::where('id',$id)->first();
+        $chats = $chat_mother->repliers;
+
+        foreach($chats as $chat){
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
+        return view('chats.show', [
+            'chats' => $chats,
+            'chat_mother' => $chat_mother,
+        ]);                        
     }
 
     /**

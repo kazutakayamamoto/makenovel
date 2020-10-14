@@ -79,8 +79,8 @@
     border-color: #75A9FF;
 }
 .nice:active{
-    margin-top:34px;
-    box-shadow: 0px 0px;    
+    margin-top:20px;
+    box-shadow: 0px 0px;
 }
 .box2_under .up{
     position: fixed;
@@ -88,4 +88,39 @@
 .underplot_show{
     cursor: pointer;
     border-bottom: solid 3px #87CEFA;
+}
+
+.reply_content{
+  position: relative;
+  padding: 20px;
+  background-color: #ffadad;
+  border: 2px solid #ca8888;
+}
+
+/* beforeで枠線の三角を表現 */
+.reply_content::before{
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: 20px;
+  top: -15px;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #ca8888;
+  border-left: 15px solid transparent;
+}
+
+/* beforeで本体の三角を表現 */
+.reply_content::after{
+  content: '';
+  position: absolute;
+  display: block;
+  width: 0;
+  height: 0;
+  left: 20px;
+  top: -12px;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid #ffadad;
+  border-left: 15px solid transparent;
 }

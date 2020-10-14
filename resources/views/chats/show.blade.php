@@ -2,9 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<script type="module" src="/js/chat.js"></script>
     <a href="/">ホームへ戻る</a>
-    {{ $chats->links() }}
     @if (count($chats) > 0)
         @foreach ($chats as $chat)
         <div id="comment-data">
@@ -14,11 +12,7 @@
                     <span class="chat_user">{!! $chat->user->name !!}</span><br>
                     <span id="content"> 
                     @if(!is_null($chat->reply_number))
-                    
-                    
-                    <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number !!}</button><br>
-                    <div class="reply"><div class="reply{{ $chat->id }}"></div></div>
-                    
+                    >> {!! $chat->reply_number !!}<br>
                     @endif
                     {!! $chat->content !!}<br>
                     @if(!empty($chat->replier_number))

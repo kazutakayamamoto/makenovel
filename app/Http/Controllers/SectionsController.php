@@ -98,6 +98,22 @@ class SectionsController extends Controller
         $request->user()->sections()->create([
             'content' => $request->content,
             'section_number'=>$id,
+            'books_id'=>1,
+        ]);
+
+        return back();
+    }
+    public function future_store(Request $request,$id)
+    {
+        // バリデーション
+        $request->validate([
+            'content' => 'required|max:255',
+        ]);
+        // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
+        $request->user()->sections()->create([
+            'content' => $request->content,
+            'section_number'=>0,
+            'books_id'=>1,
         ]);
 
         return back();
@@ -120,7 +136,16 @@ class SectionsController extends Controller
             'section_tree' => $section_tree,
         ]);        
     }
-
+    public function future_show()
+    {
+        // メッセージ一覧を取得
+        $sections = Section::where('section_number',0)->withCount('nices')->orderBy('nices_count','desc')->get();
+        // メッセージ一覧ビューでそれを表示
+        return view('sections.show', [
+            'sections' => $sections,
+        ]);        
+    }
+    
     /**
      * Show the form for editing the specified resource.
      *

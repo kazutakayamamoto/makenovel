@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+    <p class="text-center">文章の投稿やいいね、チャットの投稿などをするにはログインしてください</p>
     <div class="text-center">
         <h1>Log in</h1>
     </div>
