@@ -13,8 +13,10 @@ class SectionTreesController extends Controller
     public function index(Request $request)
     {
         $section_trees = SectionTree::all();
+        $number=Section::max('section_number');
         return view('section_tree.index', [
             'section_trees' => $section_trees,
+            'number' => $number,
         ]);
     }
     /**

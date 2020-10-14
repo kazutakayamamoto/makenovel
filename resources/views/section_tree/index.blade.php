@@ -5,7 +5,11 @@
     @if (count($section_trees) > 0)
         @foreach ($section_trees as $section_tree)
             {!! $section_tree->content !!}
-            <p>↓</p>
+            <p>↓
+            @if($number==$section_tree->section_number)
+            ←<font color="red">いまここ</font>
+            @endif
+            </p>
         @endforeach
     @endif
 

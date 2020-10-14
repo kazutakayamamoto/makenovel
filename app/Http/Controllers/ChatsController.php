@@ -84,7 +84,15 @@ class ChatsController extends Controller
     {
         $chat_mother = Chat::where('id',$id)->first();
         $chats = $chat_mother->repliers;
-
+        
+        $reply_number = $chat_mother->replies->first();
+        $replier_number = $chat_mother->repliers->count();
+        if(!is_null($reply_number)){
+            $chat_mother->reply_number = $reply_number->id;
+        }
+        if(!is_null($replier_number)){
+            $chat_mother->replier_number = $replier_number;
+        }
         foreach($chats as $chat){
             $reply_number = $chat->replies->first();
             $replier_number = $chat->repliers->count();
