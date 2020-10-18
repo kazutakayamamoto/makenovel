@@ -35,6 +35,16 @@ class ChatsController extends Controller
         foreach($chats as $chat){
             $name=$chat->user->name;
             $chat->name=$name;
+            $chat->content = nl2br(htmlspecialchars($chat->content));
+            
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
         }
         $json = ["chats" => $chats];
         return response()->json($json);
@@ -43,8 +53,17 @@ class ChatsController extends Controller
     public function getReply($id)
     {
         $chat = Chat::where('id',$id)->first();
+        $chat->content = nl2br(htmlspecialchars($chat->content));
         $name=$chat->user->name;
         $chat->name=$name;
+        $reply_number = $chat->replies->first();
+        $replier_number = $chat->repliers->count();
+        if(!is_null($reply_number)){
+            $chat->reply_number = $reply_number->id;
+        }
+        if(!is_null($replier_number)){
+            $chat->replier_number = $replier_number;
+        }
         $json = ["chat" => $chat];
         return response()->json($json);
     }

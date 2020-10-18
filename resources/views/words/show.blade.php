@@ -50,41 +50,30 @@
                 @endforeach
             @endif
         </div>
+        {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
+            <div class="form-group">  
+                {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
+            </div>
+        <input class="btn btn-default form-control" type="submit" name="追加する">
+        {!! Form::close() !!}
     </div>
-    {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
-        <div class="form-group">  
-            {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
-        </div>
-     </div>
-    <input class="btn btn-default form-control" type="submit" name="追加する">
-    {!! Form::close() !!}
     
     
     
         <!--チャットここから-->
-
-         <div class="item" data-id="{{ $word->id }}">
-                <div class="chat-container row justify-content-center">
-                    <div class="chat-area">
-                        <div class="card">
-                            <div class="card-header">Comment</div>
-                            <div class="card-body chat-card">
-                                <div id="comment-data"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="row">
+        <div class="col-md-12">
+             <div class="item" data-id="{{ $word->id }}">
+                <div id="comment-data"></div>
             </div>
-        </div>
         
-            @if (Auth::id())
-                <div class="col-md-6">
-                    {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
-                    <div class="form-group box3">  
-                        {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
-                    </div>
-                {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
-                {!! Form::close() !!}
-            @endif
-
+            <div class="col-md-6">
+                {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
+                <div class="form-group box3">  
+                    {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
+                </div>
+            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::close() !!}
+        </div>
+    </div>
 @endsection

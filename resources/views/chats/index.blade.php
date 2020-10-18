@@ -12,21 +12,21 @@
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat->id !!}</span>
                     <span class="chat_user">{!! $chat->user->name !!}</span><br>
-                    <span id="content"> 
+                    
                     @if(!is_null($chat->reply_number))
                     
                     
                     <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number !!}</button><br>
-                    <div class="reply"><div class="reply{{ $chat->id }}"></div></div>
+                    <div class="reply{{ $chat->id }}"></div>
                     
                     @endif
-                    {!! $chat->content !!}<br>
+                    <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
                     @if(!empty($chat->replier_number))
                     {!! Form::open(['route' => ['chat.show', $chat->id]]) !!}
                         <button class="btn" type="button submit">{!! $chat->replier_number !!}件の返信</button>
                     {!! Form::close() !!}
                     @endif
-                    </span>
+                    
                     
                     {!! Form::open(['route' => ['reply.create', $chat->id]]) !!}
                         <button class="nice unnice" type="button submit">返信する</button>

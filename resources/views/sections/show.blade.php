@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
+<script type="module" src="/js/index.1.js"></script>
     <div class="row">
             @if(!empty($section_tree))
                 この節では{!! $section_tree->content !!}について書いてください。
@@ -21,17 +21,23 @@
                                         </p>
                                         {{-- 投稿内容 --}}
                                         <p class="mb-0">{!! nl2br(e($section->content)) !!}</p>
-                                            @if (Auth::id())
-                                                @if ($section->is_nice($section->id,Auth::id()))
-                                                    {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
-                                                        {!! Form::submit('いいねを外す', ['class' => "btn btn-primary btn-block"]) !!}
-                                                    {!! Form::close() !!}
-                                                @else
-                                                    {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
-                                                        {!! Form::submit('いいね', ['class' => "btn btn-primary btn-block"]) !!}
-                                                    {!! Form::close() !!}
-                                                @endif
-                                            @endif
+                                        
+                                        @if(!empty($section->under_plot))
+                                            <a class="underplot_show"><span>伏線を見る</span>
+                                            <p class="underplot_content">{!! nl2br(e($section->under_plot)) !!}</p>
+                                            </a>
+                                        @endif
+
+                                        @if ($section->is_nice($section->id,Auth::id()))
+                                            {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
+                                                <button class="nice unnice" type="button submit">いいねを外す</button>
+                                            {!! Form::close() !!}
+                                        @else
+                                            {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
+                                                <button class="nice" type="button submit">いいね</button>
+                                            {!! Form::close() !!}
+                                        @endif
+
                                     </div>
                                 </div>
                             </li>
@@ -49,10 +55,22 @@
                 @else
                 {!! Form::open(['route' => ['section.store2', 0]]) !!}
                 @endif
-                <div class="form-group box3">  
-                    {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
-                    {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+                <div class="box5 col-md-12">
+                    <br>
+                    {!! Form::open(['route' => 'sections.store']) !!}
+                    <div class="form-group">  
+                            <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                            <p><input type="text" id="xxxx">/300</p>
+                    </div>
+                    伏線やこの文章の意味について説明する
+                    <div class="form-group box4">
+                            <textarea name="under_plot" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                            <p><input type="text" id="yyyy">/300</p>  
+                    </div>
                 </div>
+            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::close() !!}
+            </div>
                 {!! Form::close() !!}
             </div>
         </div>

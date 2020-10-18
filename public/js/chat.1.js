@@ -14,6 +14,8 @@ function get_data(a,b) {
             var html = `
                         <div id="reply_wrapper">
                         <div class="reply_content">
+                            <script type="text/javascript" src="/js/chat.js"></script>
+                            <button class="btn show_reply" value="{{ ${data.chat.id} }}" id="{{ ${data.chat.reply_number} }}" > >> {!! ${data.chat.reply_number} !!}</button><br>
                             <span class="chat_id">${data.chat.id}</spa>
                             <span class="chat_user">${data.chat.name}<br></span>
                             <span class="content">${data.chat.content}</span>

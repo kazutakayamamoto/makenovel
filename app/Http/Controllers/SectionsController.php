@@ -99,6 +99,7 @@ class SectionsController extends Controller
             'content' => $request->content,
             'section_number'=>$id,
             'books_id'=>1,
+            'under_plot'=>$request->under_plot,
         ]);
 
         return back();
@@ -129,7 +130,7 @@ class SectionsController extends Controller
     {
         // メッセージ一覧を取得
         $sections = Section::where('section_number',$id)->withCount('nices')->orderBy('nices_count','desc')->get();
-        $section_tree=SectionTree::where('section_number',$id)->first();
+        $section_tree=SectionTree::where('section_number',$id)->withCount('nices')->orderBy('nices_count','desc')->first();;
         // メッセージ一覧ビューでそれを表示
         return view('sections.show', [
             'sections' => $sections,

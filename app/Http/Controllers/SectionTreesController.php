@@ -12,10 +12,12 @@ class SectionTreesController extends Controller
 {
     public function index(Request $request)
     {
-        $section_trees = SectionTree::all();
-        $number=Section::max('section_number');
+        $section_trees = SectionTree::withCount('nices')->orderBy('nices_count','desc')->get();
+        $max_section_number = SectionTree::max('section_number');
+        $number = Section::max('section_number');
         return view('section_tree.index', [
             'section_trees' => $section_trees,
+            'max_section_number'=>$max_section_number,
             'number' => $number,
         ]);
     }
@@ -49,7 +51,7 @@ class SectionTreesController extends Controller
         $new_section->user_id = \Auth::id(); 
         $new_section->books_id = 1; 
         $new_section->content = $request->content;
-        $new_section->section_number=$max_section_number+1;
+        $new_section->section_number=$max_section_number;
         $new_section->save();
         return back();
     }
@@ -66,7 +68,7 @@ class SectionTreesController extends Controller
         $new_section->user_id = \Auth::id(); 
         $new_section->books_id = 1; 
         $new_section->content = $request->content;
-        $new_section->section_number=$id;
+        $new_section->section_number = $id;
         $new_section->save();
         return back();
     }
@@ -80,10 +82,10 @@ class SectionTreesController extends Controller
     public function show($id)
     {
         // メッセージ一覧を取得
-        $sections = Section::where('section_number',$id)->withCount('nices')->orderBy('nices_count','desc')->get();
+        $section_trees = SectionTree::where('section_number',$id)->withCount('nices')->orderBy('nices_count','desc')->get();
         // メッセージ一覧ビューでそれを表示
-        return view('sections.show', [
-            'sections' => $sections,
+        return view('section_tree.show', [
+            'section_trees' => $section_trees,
         ]);        
     }
 

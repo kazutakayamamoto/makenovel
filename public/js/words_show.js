@@ -11,12 +11,14 @@ function get_data() {
             for (var i = 0; i < data.chats.length; i++) {
                 var html = `
                             <div class="media comment-visible">
-                                <div class="media-body comment-body">
-                                    <span class="comment-body-content" id="content">${data.chats[i].content}</span>
+                                <div class="media-body comment-body chat_child">
+                                    <span class="chat_id">${data.chats[i].id}</span>
+                                    <span class="chat_user">${data.chats[i].name}</span>
+                                    <br>
+                                    <span id="content">${ data.chats[i].content }</span>
                                 </div>
                             </div>
                         `;
-        
                 $("#comment-data").append(html);
             }
         },

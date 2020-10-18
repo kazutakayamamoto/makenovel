@@ -15,12 +15,12 @@ class SectionTree extends Model
     
     public function nices()
     {
-        return $this->hasMany(Nice::class,'section_tree_id');
+        return $this->hasMany(SectionTreeNice::class,'section_tree_id');
     }
     public function is_nice($sectionId){
-        return Nice::where('section_tree_id', $sectionId)->where('user_id',\Auth::id())->exists();
+        return SectionTreeNice::where('section_tree_id', $sectionId)->where('user_id',\Auth::id())->exists();
     }
     public function count_nice($sectionId){
-        return Nice::where('section_tree_id',$sectionId)->count();
+        return SectionTreeNice::where('section_tree_id',$sectionId)->count();
     }
 }
