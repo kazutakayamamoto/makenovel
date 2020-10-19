@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<script type="module" src="/js/words_show.js"></script>    
+<script type="module" src="/js/index.1.js"></script>    
     <div class="row">
         {!! link_to_route('section_trees.index', 'セクションツリーに戻る', ['class' => 'btn btn-primary']) !!}
         <div class="box2 col-md-12">
