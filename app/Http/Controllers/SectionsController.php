@@ -41,7 +41,7 @@ class SectionsController extends Controller
         }else{
             $new_sections=Section::where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->get();
         }
-        $section_tree=SectionTree::where('section_number',$max_section_number)->first();
+        $section_tree=SectionTree::where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->first();
         // メッセージ一覧ビューでそれを表示
         return view('sections.index', [
             'sections' => $sections,
