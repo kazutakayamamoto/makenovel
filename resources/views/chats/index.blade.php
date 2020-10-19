@@ -23,7 +23,7 @@
                     <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
                     @if(!empty($chat->replier_number))
                     {!! Form::open(['route' => ['chat.show', $chat->id]]) !!}
-                        <button class="btn" type="button submit">{!! $chat->replier_number !!}件の返信</button>
+                        <button class="btn btn-reply" type="button submit">{!! $chat->replier_number !!}件の返信</button>
                     {!! Form::close() !!}
                     @endif
                     

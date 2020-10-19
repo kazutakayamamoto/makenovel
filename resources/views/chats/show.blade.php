@@ -21,7 +21,7 @@
                     <span id="content">{!! $chat_mother->content !!}<br></span>
                     @if(!empty($chat_mother->replier_number))
                     {!! Form::open(['route' => ['chat.show', $chat_mother->id]]) !!}
-                        <button class="btn" type="button submit">{!! $chat_mother->replier_number !!}件の返信</button>
+                        <button class="btn btn-reply" type="button submit">{!! $chat_mother->replier_number !!}件の返信</button>
                     {!! Form::close() !!}
                     @endif
                     
@@ -51,7 +51,7 @@
                     <span id="content">{!! $chat->content !!}<br></span>
                     @if(!empty($chat->replier_number))
                     {!! Form::open(['route' => ['chat.show', $chat->id]]) !!}
-                        <button class="btn" type="button submit">{!! $chat->replier_number !!}件の返信</button>
+                        <button class="btn btn-reply" type="button submit">{!! $chat->replier_number !!}件の返信</button>
                     {!! Form::close() !!}
                     @endif
                     

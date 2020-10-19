@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Section;
 use App\SectionTree;
+use App\SectionTreeNice;
 use App\User;
 use App\Nice;
 use App\UnderPlot;
@@ -14,6 +15,7 @@ class SectionTreesController extends Controller
     {
         $section_trees = SectionTree::withCount('nices')->orderBy('nices_count','desc')->get();
         $max_section_number = SectionTree::max('section_number');
+        
         $number = Section::max('section_number');
         return view('section_tree.index', [
             'section_trees' => $section_trees,
@@ -86,6 +88,7 @@ class SectionTreesController extends Controller
         // メッセージ一覧ビューでそれを表示
         return view('section_tree.show', [
             'section_trees' => $section_trees,
+            'section_number'=> $id,
         ]);        
     }
 

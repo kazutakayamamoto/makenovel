@@ -28,7 +28,7 @@
                                             @if(!empty($section->under_plot))
                                                 <a class="underplot_show"><span>伏線を見る</span>
                                                 <p class="underplot_content">{!! nl2br(e($section->under_plot)) !!}</p>
-                                                </a>
+                                                </a><br><br>
                                             @endif
                                                  {!! link_to_route('sections.show', '他の案を見る', ['section'=>$section->section_number]) !!}
                                                  
@@ -49,8 +49,8 @@
             <div>
             <a href="/?sort=new">新しい順</a>
             <a href="/?sort=nice">いいね順</a>
-            @if (Auth::id())
-            <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i></div>追加する
+            
+            <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             
             <div class="row plus_section">
                 <div class="box5 col-md-12">
@@ -66,10 +66,9 @@
                             <input type="text" id="yyyy">/300  
                     </div>
                  </div>
-            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::submit('文章を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
             </div>
-            @endif
             
             </div>
             <div class="box2_under">
@@ -88,7 +87,6 @@
                                             {!! 'いいねの数:' !!}{{$section->count_nice($section->id)}}
                                         </p>
                                         <p>{!! '投稿時間:' !!}{!! $section->created_at!!}</p>
-                                        <p>{!! 'id:' !!}{!! $section->id!!}</p>
                                         
                                         {{-- 投稿内容 --}}
                                         <p class="mb-0">{!! nl2br(e($section->content)) !!}</p>
@@ -121,9 +119,9 @@
 
         <!--チャットここから-->
         <div class="row">
-            <div class="col-md-12">
-            最新の10件のチャット
-            {!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}
+            <div class="col-md-12 chat-comment">
+            最新の10件のチャット&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}
                 <div id="comment-data">
 
                 </div>

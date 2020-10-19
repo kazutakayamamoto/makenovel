@@ -12,50 +12,54 @@
             @if (count($settings_adapt) > 0)
                 @foreach ($settings_adapt as $setting)
                     <div class="box3">
-                        <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
+                        名前:{!! nl2br(e($setting->user->name)) !!}
                         {!! 'いいねの数:' !!}{{$setting->nices_count}}
-                        @if (Auth::id())
-                            @if ($setting->is_nice($setting->id,Auth::id()))
-                                {!! Form::open(['route' => ['setting.unnice', $setting->id],'method' => 'delete']) !!}
-                                    {!! Form::submit('いいねを外す', ['class' => "btn btn-primary btn-block"]) !!}
-                                {!! Form::close() !!}
-                            @else
-                                {!! Form::open(['route' => ['setting.nice', $setting->id]]) !!}
-                                    {!! Form::submit('いいね', ['class' => "btn btn-primary btn-block"]) !!}
-                                {!! Form::close() !!}
-                            @endif
+                        <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
+                        
+                        @if ($setting->is_nice($setting->id,Auth::id()))
+                            {!! Form::open(['route' => ['setting.unnice', $setting->id],'method' => 'delete']) !!}
+                                <button class="nice unnice" type="button submit">いいねを外す</button>
+                            {!! Form::close() !!}
+                        @else
+                            {!! Form::open(['route' => ['setting.nice', $setting->id]]) !!}
+                                <button class="nice" type="button submit">いいね</button>
+                            {!! Form::close() !!}
                         @endif
                     </div>
                 @endforeach
             @endif
         </div>
         <div class="box2 col-md-6">
+            
+            <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
+            {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
+                <div class="form-group setting-form">
+                    <textarea name="under_plot" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                    <input type="text" id="yyyy">/300
+                    <p></p>
+                    {!! Form::submit('設定を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
+                    {!! Form::close() !!}
+                </div>
             @if (count($settings_stay) > 0)
                 @foreach ($settings_stay as $setting)
                 <div class="box3">
-                    <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
+                    名前:{!! nl2br(e($setting->user->name)) !!}
                     {!! 'いいねの数:' !!}{{$setting->nices_count}}
-                    @if (Auth::id())
-                        @if ($setting->is_nice($setting->id,Auth::id()))
-                            {!! Form::open(['route' => ['setting.unnice', $setting->id],'method' => 'delete']) !!}
-                                {!! Form::submit('いいねを外す', ['class' => "btn btn-primary btn-block"]) !!}
-                            {!! Form::close() !!}
-                        @else
-                            {!! Form::open(['route' => ['setting.nice', $setting->id]]) !!}
-                                {!! Form::submit('いいね', ['class' => "btn btn-primary btn-block"]) !!}
-                            {!! Form::close() !!}
-                        @endif
+                    <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
+                    @if ($setting->is_nice($setting->id,Auth::id()))
+                        {!! Form::open(['route' => ['setting.unnice', $setting->id],'method' => 'delete']) !!}
+                            <button class="nice unnice" type="button submit">いいねを外す</button>
+                        {!! Form::close() !!}
+                    @else
+                        {!! Form::open(['route' => ['setting.nice', $setting->id]]) !!}
+                            <button class="nice" type="button submit">いいね</button>
+                        {!! Form::close() !!}
                     @endif
                 </div>
                 @endforeach
             @endif
+            
         </div>
-        {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
-            <div class="form-group">  
-                {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
-            </div>
-        <input class="btn btn-default form-control" type="submit" name="追加する">
-        {!! Form::close() !!}
     </div>
     
     
@@ -63,16 +67,18 @@
         <!--チャットここから-->
     <div class="row">
         <div class="col-md-12">
-             <div class="item" data-id="{{ $word->id }}">
+            <p>{!! $word->name !!}について語るスレ</p>
+            <div class="item" data-id="{{ $word->id }}">
                 <div id="comment-data"></div>
             </div>
-        
+            <br>
             <div class="col-md-6">
                 {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
-                <div class="form-group box3">  
-                    {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
+                <div class="form-group">  
+                    <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                    <p><input type="text" id="xxxx">/300</p>
                 </div>
-            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+            {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
         </div>
     </div>

@@ -24,11 +24,11 @@
                                             @if (Auth::id())
                                                 @if ($section->is_nice($section->id,Auth::id()))
                                                     {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
-                                                        {!! Form::submit('いいねを外す', ['class' => "btn btn-primary btn-block"]) !!}
+                                                        <button class="nice unnice" type="button submit">いいねを外す</button>
                                                     {!! Form::close() !!}
                                                 @else
                                                     {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
-                                                        {!! Form::submit('いいね', ['class' => "btn btn-primary btn-block"]) !!}
+                                                        <button class="nice" type="button submit">いいね</button>
                                                     {!! Form::close() !!}
                                                 @endif
                                             @endif

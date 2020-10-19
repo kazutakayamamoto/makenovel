@@ -42,6 +42,7 @@ function get_data() {
                                 <div class="media-body comment-body chat_child">
                                     <span class="chat_id">${data.chats[i].id}</span>
                                     <span class="chat_user">${data.chats[i].name}</span>
+                                    <span class="chat_time">${data.chats[i].created_at}</span>
                                     <br>
                                     <span id="content">${ data.chats[i].content }</span>
                                 </div>

@@ -34,3 +34,8 @@ function get_data() {
 $(function() {
     get_data();
 });
+$(function() {
+    $('.show_plus_section').click(function(){
+      $('.setting-form').toggle();
+    });
+});
