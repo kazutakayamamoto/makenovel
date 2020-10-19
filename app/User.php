@@ -41,5 +41,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(Section::class);
     }
-    
+    public function section_trees()
+    {
+        return $this->hasMany(SectionTree::class);
+    }    
 }

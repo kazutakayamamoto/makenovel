@@ -2,14 +2,20 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <p>ここでは50字までの短い文章でこの物語の方向性を決定していきます。</p>
+    
     @for ($i = 1; $i < $max_section_number+1; $i++)
             @foreach ($section_trees->where('section_number',$i) as $section_tree)
-                <p>{!! $section_tree->content !!}</p>
-                ↓
+                <p class="section_tree_leaf">{!! $section_tree->section_number !!}.{!! $section_tree->content !!}
+                <br>
+                {!! link_to_route('section_trees.show','他の案を見る', ['id' => $section_tree->section_number],['class' => 'section_tree_another']) !!}
+                </p>
+                
+                <i class="fas fa-2x fa-arrow-down"></i>
                 @if($number==$section_tree->section_number)
-                ←<font color="red">いまここ</font>
+                ←<font color="red">いまここまでが文章の最新節です。</font>
                 @endif
-                {!! link_to_route('section_trees.show','AnotherIdea', ['id' => $section_tree->section_number],['class' => 'section_tree_another']) !!}
+                
                 @break;
             @endforeach
     @endfor

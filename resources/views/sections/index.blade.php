@@ -4,8 +4,8 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.js"></script>
 
-    {!! link_to_route('words.index', 'この小説の設定一覧', ['class' => 'btn btn-primary']) !!}
-    {!! link_to_route('section_trees.index', 'セクションツリー', ['class' => 'btn btn-primary']) !!}
+    {!! link_to_route('words.index', 'この小説の設定一覧', ['class' => 'btn btn-primary']) !!}&nbsp;&nbsp;
+    <i class="fas fa-tree"></i>{!! link_to_route('section_trees.index', 'セクションツリー', ['class' => 'btn btn-primary']) !!}
     <div class="row">
         <div class="box2 col-md-6">
             <p>採用された文章一覧</p>

@@ -15,7 +15,20 @@ class SectionTreesController extends Controller
     {
         $section_trees = SectionTree::withCount('nices')->orderBy('nices_count','desc')->get();
         $max_section_number = SectionTree::max('section_number');
-        
+        if(!empty($section_trees->where('section_number',$max_section_number)->first())){
+            $a= SectionTreeNice::where('section_tree_id',$section_trees->where('section_number',$max_section_number)->first()->id)->count();
+        }else{
+            $a=0;
+        }
+        if($a>1||$max_section_number==NULL){
+            $user = User::first();
+            $user->section_trees()->create([
+                'books_id'=>1,
+                'content' => 'いいねが2を超えたので新しいセクションツリーが作られました。 投稿してください。',
+                'section_number'=>$max_section_number+1,
+            ]);
+            return back();
+        }
         $number = Section::max('section_number');
         return view('section_tree.index', [
             'section_trees' => $section_trees,
