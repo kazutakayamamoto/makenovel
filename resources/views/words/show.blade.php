@@ -3,6 +3,8 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/words_show.js"></script>
+<script type="module" src="/js/index.1.js"></script>
+
     {!! link_to_route('words.index', '設定一覧に戻る', ['class' => 'btn btn-primary']) !!}
     <p>{!! '名前:' !!}{!! $word->name !!}</p>
     <div class="row">
@@ -34,7 +36,7 @@
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
                 <div class="form-group setting-form">
-                    <textarea name="under_plot" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                    <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                     <input type="text" id="yyyy">/300
                     <p></p>
                     {!! Form::submit('設定を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
