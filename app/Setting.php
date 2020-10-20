@@ -21,4 +21,7 @@ class Setting extends Model
     public function is_nice($settingId){
         return SettingNice::where('setting_id', $settingId)->where('user_id',\Auth::id())->exists();
     }
+    public function count_nice($settingId){
+        return SettingNice::where('setting_id',$settingId)->count();
+    }
 }
