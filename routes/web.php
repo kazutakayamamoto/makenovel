@@ -19,10 +19,11 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
 Route::get('settings', 'WordsController@index');
-Route::resource('sections', 'SectionsController');
-Route::resource('chats', 'ChatsController');
-Route::resource('words', 'WordsController');
-Route::resource('section_trees', 'SectionTreesController');
+
+Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
+Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
+Route::resource('words', 'WordsController',['only' => ['index', 'show']]);
+Route::resource('section_trees', 'SectionTreesController',['only' => ['index', 'show']]);
 
 
 
@@ -34,6 +35,7 @@ Route::get('/chat/reply/{id}', 'ChatsController@getReply');
 
 Route::get('/section_tree/{id}', 'SectionTreesController@show')->name('section_trees.show');
 Route::post('/chat/show/{id}', 'ChatsController@show')->name('chat.show');
+
 Route::group(['middleware' => ['auth']], function () {
     Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
     Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2');
@@ -53,5 +55,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => '/words/chat/{id}'], function () {
         Route::resource('settingchats', 'SettingChatsController');
     });
+    Route::resource('sections', 'SectionsController',['only' => ['store']]);
+    Route::resource('chats', 'ChatsController',['only' => ['store']]);
+    Route::resource('words', 'WordsController',['only' => ['store']]);
+    Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
 
 });
