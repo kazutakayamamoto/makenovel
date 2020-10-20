@@ -61,23 +61,8 @@ class WordsController extends Controller
     public function show($id)
     {
         $word = Word::where('id',$id)->first();
-        if(is_null(Setting::where('word_id',$id)->first())){
-            $new_setting = new Setting;
-            $new_setting->word_id = $id; 
-            $new_setting->user_id = 1;
-            $new_setting->content= '新しい設定を追加してください。';
-            $new_setting->save();
-            SettingNice::create([
-                'setting_id'=>$new_setting->id,
-                'user_id'=>1,
-            ]);
-            SettingNice::create([
-                'setting_id'=>$new_setting->id,
-                'user_id'=>2,
-            ]);
-        }
-        if(!is_null(Setting::where('word_id',$id)->first()))$settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->get();
-        if(!is_null(Setting::where('word_id',$id)->first()))$settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
+        $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices','>',1)->get();
+        $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices','<=',1)->orderBy('nices_count','desc')->get();
         
         // メッセージ一覧ビューでそれを表示
         return view('words.show', [
