@@ -67,8 +67,8 @@ class WordsController extends Controller
             $new_setting->content= '新しい設定を追加してください。';
             $new_setting->save();            
         }
-        $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->get();
-        $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
+        if(!is_null(Setting::where('word_id',$id)->first()))$settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->get();
+        if(!is_null(Setting::where('word_id',$id)->first()))$settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
         
         // メッセージ一覧ビューでそれを表示
         return view('words.show', [
