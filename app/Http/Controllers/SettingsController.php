@@ -38,7 +38,7 @@ class SettingsController extends Controller
             'content' => 'required|max:100',
         ]);
         $new_setting = new Setting;
-        $new_setting->word_id = $id; 
+        $new_setting->word_id = $id;
         $new_setting->user_id = \Auth::id(); 
         $new_setting->content=$request->content;
         $new_setting->save();
