@@ -14,7 +14,7 @@ class Setting extends Model
     {
         return $this->belongTo(Word::class);
     }
-    public function setting_nices()
+    public function nices()
     {
         return $this->hasMany(SettingNice::class,'setting_id');
     }
