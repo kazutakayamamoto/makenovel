@@ -2,7 +2,6 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-
 <script type="module" src="/js/words_show.js"></script>
 <script type="module" src="/js/index.1.js"></script>
 
@@ -16,7 +15,7 @@
                 @foreach ($settings_adapt as $setting)
                     <div class="box3">
                         名前:{!! nl2br(e($setting->user->name)) !!}
-                        <!--{!! 'いいねの数:' !!}{{$setting->nices_count}}-->
+                        {!! 'いいねの数:' !!}{{$setting->nices_count}}
                         <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
                         
                         @if ($setting->is_nice($setting->id,Auth::id()))
@@ -47,7 +46,7 @@
                 @foreach ($settings_stay as $setting)
                 <div class="box3">
                     名前:{!! nl2br(e($setting->user->name)) !!}
-                    <!--{!! 'いいねの数:' !!}{{$setting->nices_count}}-->
+                    {!! 'いいねの数:' !!}{{$setting->nices_count}}
                     <p class="mb-0">{!! nl2br(e($setting->content)) !!}</p>
                     @if ($setting->is_nice($setting->id,Auth::id()))
                         {!! Form::open(['route' => ['setting.unnice', $setting->id],'method' => 'delete']) !!}
