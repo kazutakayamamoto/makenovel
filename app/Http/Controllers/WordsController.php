@@ -62,8 +62,8 @@ class WordsController extends Controller
     {
         $word = Word::where('id',$id)->first();
         $count = 1;
-        $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',$count)->get();
-        $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',$count)->get();
+        $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count', '>' ,$count)->get();
+        $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count', '<=' ,$count)->get();
         
         // メッセージ一覧ビューでそれを表示
         return view('words.show', [
