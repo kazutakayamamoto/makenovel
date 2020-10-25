@@ -153,7 +153,9 @@ class SectionsController extends Controller
     public function future_show()
     {
         // メッセージ一覧を取得
-        $sections = Section::where('section_number',0)->withCount('nices')->orderBy('nices_count','desc')->get();
+            
+        $query = Section::where('section_number',0)->withCount('nices');
+        $sections = Section::fromSub($query, 'alias')->orderBy('nices_count','desc')->get();
         // メッセージ一覧ビューでそれを表示
         return view('sections.future_show', [
             'sections' => $sections,
