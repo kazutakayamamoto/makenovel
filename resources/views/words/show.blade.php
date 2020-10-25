@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <!--<script type="module" src="/js/words_show.js"></script>-->
-<!--<script type="module" src="/js/index.1.js"></script>-->
+<script type="module" src="/js/index.1.js"></script>
 
     {!! link_to_route('words.index', '設定一覧に戻る', ['class' => 'btn btn-primary']) !!}
     <p>{!! '名前:' !!}{!! $word->name !!}</p>
