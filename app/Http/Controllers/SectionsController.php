@@ -153,9 +153,16 @@ class SectionsController extends Controller
     public function future_show()
     {
         // メッセージ一覧を取得
-            
-        $query = Section::where('section_number',0)->withCount('nices');
-        $sections = Section::fromSub($query, 'alias')->orderBy('nices_count','desc')->get();
+        if(!is_null($section = Section::where('section_number',0))){
+            $sections = Section::where('section_number',0)->withCount('nices')->orderBy('nices_count','desc')->get();
+        }else{
+            $sections = new Section;
+            $sections->user_id = 1; 
+            $sections->books_id = 1; 
+            $sections->content = '文章を投稿してください';
+            $sections->section_number=0;
+            $sections->save();            
+        }
         // メッセージ一覧ビューでそれを表示
         return view('sections.future_show', [
             'sections' => $sections,
