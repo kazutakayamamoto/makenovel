@@ -9,7 +9,8 @@
     <div class="row">
         <div class="box2 col-md-6">
             <p>採用された文章一覧</p>
-            {!! link_to_route('section.future_show', 'この先で使ってほしい展開・文章', ['section'=>0], ['class' => 'btn btn-primary']) !!}<br>
+            {!! link_to_route('section.future_show', 'この先で使ってほしい展開文章') !!}
+            <br>
             @for ($i = 1; $i < $max_section_number; $i++)
                 @foreach ($sections->where('section_number',$i) as $section)
                     @if (count($sections) > 0)
