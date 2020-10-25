@@ -2,8 +2,8 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-<script type="module" src="/js/words_show.js"></script>
-<script type="module" src="/js/index.1.js"></script>
+<!--<script type="module" src="/js/words_show.js"></script>-->
+<!--<script type="module" src="/js/index.1.js"></script>-->
 
     {!! link_to_route('words.index', '設定一覧に戻る', ['class' => 'btn btn-primary']) !!}
     <p>{!! '名前:' !!}{!! $word->name !!}</p>
@@ -67,22 +67,77 @@
     
     
         <!--チャットここから-->
-    <div class="row">
-        <div class="col-md-12">
-            <p>{!! $word->name !!}について語るスレ</p>
-            <div class="item" data-id="{{ $word->id }}">
-                <div id="comment-data"></div>
-            </div>
-            <br>
-            <div class="col-md-6">
-                {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
-                <div class="form-group">  
-                    <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
-                    <p><input type="text" id="xxxx">/300</p>
+        <div class="row">
+                <div class="col-md-12 chat-comment">
+                最新の10件のチャット&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <!--<i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}-->
+                
+                <p>{!! $word->name !!}について語るスレ</p>
+                <script type="module" src="/js/chat.2.js"></script>
+                    {{ $chats->links() }}
+                    @if (count($chats) > 0)
+                        @foreach ($chats as $chat)
+                        <div id="comment-data">
+                            <div class="media comment-visible">
+                                <div class="media-body comment-body chat_child">
+                                    <span class="chat_id">{!! $chat->id !!}</span>
+                                    <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span>
+                                    <br>
+                                    
+                                    @if(!is_null($chat->reply_number))
+                                    
+                                    
+                                    <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number !!}</button><br>
+                                    <div class="reply{{ $chat->id }}"></div>
+                                    
+                                    @endif
+                                    <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
+                                    @if(!empty($chat->replier_number))
+                                    {!! Form::open(['route' => ['settingchatreply.show', $chat->id]]) !!}
+                                        <button class="btn btn-reply" type="button submit">{!! $chat->replier_number !!}件の返信</button>
+                                    {!! Form::close() !!}
+                                    @endif
+                                    
+                                    
+                                    {!! Form::open(['route' => ['settingchatsreply.create',$word->id,$chat->id]]) !!}
+                                        <button class="nice unnice" type="button submit">返信する</button>
+                                    {!! Form::close() !!}
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endif
+                <!--<div class="item" data-id="{{ $word->id }}">-->
+                <!--    <div id="comment-data"></div>-->
+                <!--</div>-->
+                <br>
+                <div class="col-md-6">
+                    {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
+                    <div class="form-group">
+                        <textarea name="content" cols="60" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                        <p><input type="text" id="xxxx">/300</p>
+                        <script>
+                        function lineCheck(e) {
+                            var ta = document.getElementById("word_chat_content_input");
+                            var row = ta.getAttribute("rows");
+                            var r = (ta.value.split("\n")).length;
+                            if (document.all) {
+                                if (r >= row && window.event.keyCode === 13) { //keyCode for IE
+                                    return false; //入力キーを無視
+                                }
+                            } else {
+                                if (r >= row && e.which === 13) { //which for NN
+                                    return false;
+                                }
+                            }
+                        }
+                        window.document.onkeypress = lineCheck;
+                        </script>
+                    </div>
+                {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
+                {!! Form::close() !!}
                 </div>
-            {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
-            {!! Form::close() !!}
-        </div>
+            </div>
     </div>
     
 @endsection

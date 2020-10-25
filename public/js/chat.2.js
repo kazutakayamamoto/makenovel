@@ -2,7 +2,7 @@ function get_data(a,b) {
     var id = a;
     var value = b;
     $.ajax({
-        url: "/chat/reply/"+id,
+        url: "/word/chat/reply/"+id,
         dataType: "json",
         
    

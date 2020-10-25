@@ -22,6 +22,7 @@ Route::get('settings', 'WordsController@index');
 
 Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
 Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
+
 Route::resource('words', 'WordsController',['only' => ['index', 'show']]);
 Route::resource('section_trees', 'SectionTreesController',['only' => ['index', 'show']]);
 
@@ -32,6 +33,9 @@ Route::get('/sections/future', 'SectionsController@future_show')->name('section.
 Route::get('/result/ajax', 'ChatsController@getData');
 Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
 Route::get('/chat/reply/{id}', 'ChatsController@getReply');
+Route::get('/word/chat/reply/{id}', 'SettingChatsController@getReply');
+
+Route::post('/setting/chat/reply/{id}', 'SettingChatsController@show')->name('settingchatreply.show');
 
 Route::get('/section_tree/{id}', 'SectionTreesController@show')->name('section_trees.show');
 Route::post('/chat/show/{id}', 'ChatsController@show')->name('chat.show');
@@ -47,6 +51,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice');
     Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store');
     Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create');
+    
+    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store');
+    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create');
+    
     Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice');
 
     Route::group(['prefix' => '/words/{id}'], function () {
@@ -58,6 +66,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sections', 'SectionsController',['only' => ['store']]);
     Route::resource('chats', 'ChatsController',['only' => ['store']]);
     Route::resource('words', 'WordsController',['only' => ['store']]);
+    Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy');
+    Route::post('/word/update/{id}', 'WordsController@update')->name('words.update');
+    Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist');
+    Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist');    
     Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
-
 });

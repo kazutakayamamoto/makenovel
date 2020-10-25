@@ -44,5 +44,8 @@ class User extends Authenticatable
     public function section_trees()
     {
         return $this->hasMany(SectionTree::class);
-    }    
+    }
+    public function is_black($userId){
+        return BlackList::where('user_id', $userId)->exists();
+    }
 }

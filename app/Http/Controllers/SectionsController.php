@@ -6,6 +6,7 @@ use App\SectionTree;
 use App\User;
 use App\Nice;
 use App\UnderPlot;
+use App\Word;
 use Illuminate\Http\Request;
 
 class SectionsController extends Controller
@@ -18,6 +19,7 @@ class SectionsController extends Controller
     
     public function index(Request $request)
     {
+
         // メッセージ一覧を取得
         $sections = Section::withCount('nices')->orderBy('nices_count','desc')->get();
         $max_section_number=Section::max('section_number');
@@ -42,6 +44,17 @@ class SectionsController extends Controller
             $new_sections=Section::where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->get();
         }
         $section_tree=SectionTree::where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->first();
+        //管理ユーザーチェック
+        if(\Auth::check()){
+            if(\Auth::id()==1){
+                $words = Word::all();
+                $users = User::all();
+                return view('admin.word', [
+                    'users'=>$users,
+                    'words'=>$words,
+                ]);                
+            }
+        }
         // メッセージ一覧ビューでそれを表示
         return view('sections.index', [
             'sections' => $sections,

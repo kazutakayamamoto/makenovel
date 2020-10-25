@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Word;
 use App\Setting;
 use App\SettingNice;
+use App\SettingChat;
+
 use Illuminate\Http\Request;
 
 class WordsController extends Controller
@@ -61,6 +63,17 @@ class WordsController extends Controller
     public function show($id)
     {
         $word = Word::where('id',$id)->first();
+        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
+        foreach($chats as $chat){
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
         
         $query = Setting::where('word_id',$id)->withCount('nices');
         $settings_adapt = Setting::fromSub($query, 'alias')->where('nices_count','>',1)->orderBy('nices_count','desc')->get();
@@ -73,6 +86,7 @@ class WordsController extends Controller
             'word' => $word,
             'settings_adapt'=>$settings_adapt,
             'settings_stay'=>$settings_stay,
+            'chats'=>$chats,
         ]);
     }
 
@@ -96,7 +110,11 @@ class WordsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $word = Word::findOrFail($id);
+        $word->name = $request->name;
+        $word->save();
+
+        return back();          
     }
 
     /**
@@ -107,6 +125,10 @@ class WordsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $word = Word::findOrFail($id);
+        $word->delete();
+        
+        // 前のURLへリダイレクトさせる
+        return back();
     }
 }

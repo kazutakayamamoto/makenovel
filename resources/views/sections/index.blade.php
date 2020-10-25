@@ -130,8 +130,27 @@
                     <div class="col-md-8">
                         {!! Form::open(['route' => 'chats.store']) !!}
                         <div class="form-group">
-                            <textarea name="content" cols="50" rows="2" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
+                            <textarea onpaste="alert('ペースト禁止です'); return false;" name="content" id="chat_content_input" cols="50" rows="5"  wrap="off" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
                             <p><input type="text" id="zzzz">/300</p>
+                            
+                            <script>
+                            function lineCheck(e) {
+                                var ta = document.getElementById("chat_content_input");
+                                var row = ta.getAttribute("rows");
+                                var r = (ta.value.split("\n")).length;
+                                if (document.all) {
+                                    if (r >= row && window.event.keyCode === 13) { //keyCode for IE
+                                        return false; //入力キーを無視
+                                    }
+                                } else {
+                                    if (r >= row && e.which === 13) { //which for NN
+                                        return false;
+                                    }
+                                }
+                            }
+                            window.document.onkeypress = lineCheck;
+                            </script>
+                        
                         </div>
                     {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                     {!! Form::close() !!}

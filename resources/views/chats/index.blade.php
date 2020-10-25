@@ -11,7 +11,7 @@
             <div class="media comment-visible">
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat->id !!}</span>
-                    <span class="chat_user">{!! $chat->user->name !!}</span><br>
+                    <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span><br>
                     
                     @if(!is_null($chat->reply_number))
                     

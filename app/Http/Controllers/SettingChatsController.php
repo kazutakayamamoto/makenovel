@@ -11,14 +11,59 @@ class SettingChatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($id)
     {
-        //
+        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
+        foreach($chats as $chat){
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
+        return view('words.words_show', [
+            'chats' => $chats,
+        ]);                
     }
     public function getData($id)
     {
-        $chats = SettingChat::where('words_id',$id)->orderBy('created_at', 'desc')->get();
+        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->take(10)->get();
+        foreach($chats as $chat){
+            $name=$chat->user->name;
+            $chat->name=$name;
+            $chat->content = nl2br(htmlspecialchars($chat->content));
+            
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
         $json = ["chats" => $chats];
+        return response()->json($json);
+    }
+    
+    public function getReply($id)
+    {
+        $chat = SettingChat::where('id',$id)->first();
+        $chat->content = nl2br(htmlspecialchars($chat->content));
+        $name=$chat->user->name;
+        $chat->name=$name;
+        $reply_number = $chat->replies->first();
+        $replier_number = $chat->repliers->count();
+        if(!is_null($reply_number)){
+            $chat->reply_number = $reply_number->id;
+        }
+        if(!is_null($replier_number)){
+            $chat->replier_number = $replier_number;
+        }
+        $json = ["chat" => $chat];
         return response()->json($json);
     }
     /**
@@ -41,7 +86,7 @@ class SettingChatsController extends Controller
     {
         $new_section = new SettingChat;
         $new_section->user_id = \Auth::id(); 
-        $new_section->words_id = $id; 
+        $new_section->word_id = $id; 
         $new_section->content = $request->content;
         $new_section->save();
         return back();        
@@ -55,7 +100,31 @@ class SettingChatsController extends Controller
      */
     public function show($id)
     {
-        //
+        $chat_mother = SettingChat::where('id',$id)->first();
+        $chats = $chat_mother->repliers;
+        
+        $reply_number = $chat_mother->replies->first();
+        $replier_number = $chat_mother->repliers->count();
+        if(!is_null($reply_number)){
+            $chat_mother->reply_number = $reply_number->id;
+        }
+        if(!is_null($replier_number)){
+            $chat_mother->replier_number = $replier_number;
+        }
+        foreach($chats as $chat){
+            $reply_number = $chat->replies->first();
+            $replier_number = $chat->repliers->count();
+            if(!is_null($reply_number)){
+                $chat->reply_number = $reply_number->id;
+            }
+            if(!is_null($replier_number)){
+                $chat->replier_number = $replier_number;
+            }
+        }
+        return view('words.wordshow', [
+            'chats' => $chats,
+            'chat_mother' => $chat_mother,
+        ]);                        
     }
 
     /**

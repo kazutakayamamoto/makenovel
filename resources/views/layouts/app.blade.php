@@ -36,6 +36,7 @@
         </header>
 
         <div class="container">
+            @include('commons.error_messages')
             @yield('content')
         </div>
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>

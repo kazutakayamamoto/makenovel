@@ -9,7 +9,7 @@
             <div class="media comment-visible">
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat_mother->id !!}</span>
-                    <span class="chat_user">{!! $chat_mother->user->name !!}</span><span class="chat_time">{!! $chat_mother->created_at !!}</span><br>
+                    <span class="chat_user">{!! $chat_mother->user->name !!}</span><br>
                     
                     @if(!is_null($chat_mother->reply_number))
                     
@@ -32,15 +32,15 @@
                 </div>
             </div>
         </div>
-        <p color="red" style="font-size:20px;">↑への返信</p>
-        <br><br><br><br>
+    <p color="red" style="font-size:20px;">↑への返信</p>
+    <br><br><br><br>        
     @if (count($chats) > 0)
         @foreach ($chats as $chat)
         <div id="comment-data">
             <div class="media comment-visible">
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat->id !!}</span>
-                    <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span><br>
+                    <span class="chat_user">{!! $chat->user->name !!}</span><br>
                      
                     @if(!is_null($chat->reply_number))
                     
