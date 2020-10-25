@@ -28,7 +28,7 @@ Route::resource('section_trees', 'SectionTreesController',['only' => ['index', '
 
 
 
-Route::get('/sections/future', 'SectionsController@future_show')->name('section.future_show');
+Route::get('/sections/future/', 'SectionsController@future_show')->name('section.future_show');
 
 Route::get('/result/ajax', 'ChatsController@getData');
 Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
