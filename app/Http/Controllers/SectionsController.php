@@ -155,7 +155,7 @@ class SectionsController extends Controller
         // メッセージ一覧を取得
         $sections = Section::where('section_number',0)->withCount('nices')->orderBy('nices_count','desc')->get();
         // メッセージ一覧ビューでそれを表示
-        return view('sections.show', [
+        return view('sections.future_show', [
             'sections' => $sections,
         ]);        
     }
