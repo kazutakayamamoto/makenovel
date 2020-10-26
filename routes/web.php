@@ -19,6 +19,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
 Route::get('settings', 'WordsController@index');
+Route::get('/sections/future/', 'SectionsController@future_show')->name('section.future_show');
 
 Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
 Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
@@ -28,7 +29,6 @@ Route::resource('section_trees', 'SectionTreesController',['only' => ['index', '
 
 
 
-Route::get('/sections/future/', 'SectionsController@future_show')->name('section.future_show');
 
 Route::get('/result/ajax', 'ChatsController@getData');
 Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
