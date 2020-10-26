@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <p>ここでは50字までの短い文章でこの物語の方向性を決定していきます。</p>
     <div class="row">
-         <div class="col-md-12">
+         <div class="col-12">
             @for ($i = 1; $i < $max_section_number+1; $i++)
                     @foreach ($section_trees->where('section_number',$i) as $section_tree)
                         <p class="section_tree_leaf">{!! $section_tree->section_number !!}.{!! $section_tree->content !!}

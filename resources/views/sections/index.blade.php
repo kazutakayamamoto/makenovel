@@ -58,12 +58,12 @@
                     <br>
                     {!! Form::open(['route' => 'sections.store']) !!}
                     <div class="form-group">  
-                            <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                            <textarea name="content" cols="50" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                             <input type="text" id="xxxx">/300
                     </div>
                     <p><input type="checkbox" name="check" value="prop" id="prop">：伏線アリならチェックを入れる</p>
                     <div class="form-group box4">
-                            <textarea name="under_plot" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                            <textarea name="under_plot" cols="50" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                             <input type="text" id="yyyy">/300  
                     </div>
                  </div>
