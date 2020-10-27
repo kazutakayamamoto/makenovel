@@ -44,12 +44,33 @@
     @if (Auth::id())
         <div class="row">
             <div class="box2 col-md-12">
-                {!! Form::open(['route' => ['section.future_store']]) !!}
-                <div class="form-group box3">  
-                    {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}
-                    {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
-                </div>
-                {!! Form::close() !!}
+                <br>
+                {!! Form::open(['route' => ['section.futurest']]) !!}
+                        <div class="form-group">
+                            <textarea onpaste="alert('ペースト禁止です'); return false;" name="content" id="chat_content_input" cols="50" rows="5"  wrap="off" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
+                            <p><input type="text" id="zzzz">/300</p>
+                            
+                            <script>
+                            function lineCheck(e) {
+                                var ta = document.getElementById("chat_content_input");
+                                var row = ta.getAttribute("rows");
+                                var r = (ta.value.split("\n")).length;
+                                if (document.all) {
+                                    if (r >= row && window.event.keyCode === 13) { //keyCode for IE
+                                        return false; //入力キーを無視
+                                    }
+                                } else {
+                                    if (r >= row && e.which === 13) { //which for NN
+                                        return false;
+                                    }
+                                }
+                            }
+                            window.document.onkeypress = lineCheck;
+                            </script>
+                        
+                        </div>
+                    {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
+                    {!! Form::close() !!}
             </div>
         </div>
     @endif

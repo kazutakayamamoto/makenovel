@@ -36,7 +36,7 @@
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
                 <div class="form-group setting-form">
-                    <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                    <textarea name="content" cols="50" rows="5" placeholder="300文字以内で追加したい設定を書き込んでください。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                     <input type="text" id="yyyy">/300
                     <p></p>
                     {!! Form::submit('設定を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
@@ -69,7 +69,6 @@
         <!--チャットここから-->
         <div class="row">
                 <div class="col-md-12 chat-comment">
-                最新の10件のチャット&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <!--<i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}-->
                 
                 <p>{!! $word->name !!}について語るスレ</p>
@@ -114,7 +113,7 @@
                 <div class="col-md-6">
                     {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
                     <div class="form-group">
-                        <textarea name="content" cols="60" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                        <textarea name="content" cols="50" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                         <p><input type="text" id="xxxx">/300</p>
                         <script>
                         function lineCheck(e) {

@@ -19,7 +19,7 @@ Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
 Route::get('settings', 'WordsController@index');
-Route::get('/sections/future/', 'SectionsController@future_show')->name('section.future_show');
+Route::get('/sections/future/', 'SectionsController@future_show')->name('section.futuresh');
 
 Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
 Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => '/words/chat/{id}'], function () {
         Route::resource('settingchats', 'SettingChatsController');
     });
+    Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest');
     Route::resource('sections', 'SectionsController',['only' => ['store']]);
     Route::resource('chats', 'ChatsController',['only' => ['store']]);
     Route::resource('words', 'WordsController',['only' => ['store']]);

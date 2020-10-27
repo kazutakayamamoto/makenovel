@@ -9,7 +9,7 @@
     <div class="row">
         <div class="box2 col-md-6">
             <p>採用された文章一覧</p>
-            {!! link_to_route('section.future_show', 'この先で使ってほしい展開文章') !!}
+            {!! link_to_route('section.futuresh', 'この先で使ってほしい展開文章') !!}
             <br>
             @for ($i = 1; $i < $max_section_number; $i++)
                 @foreach ($sections->where('section_number',$i) as $section)
@@ -44,12 +44,15 @@
             @endfor
         </div>
         <div class="box2 col-md-6">
-            @if(!empty($section_tree))
-                この節では{!! $section_tree->content !!}について書いてください。
-            @endif
+            <p>ここが最新節です。</p>
             <div>
-            <a href="/?sort=new">新しい順</a>
-            <a href="/?sort=nice">いいね順</a>
+            @if(!empty($section_tree))
+                節題:{!! link_to_route('section_trees.index', $section_tree->content, ['class' => 'btn btn-primary']) !!}
+            @endif
+            </div>
+            <br>
+            <div>
+
             
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             
@@ -58,12 +61,12 @@
                     <br>
                     {!! Form::open(['route' => 'sections.store']) !!}
                     <div class="form-group">  
-                            <textarea name="content" cols="50" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                            <textarea name="content" cols="50" rows="5" placeholder="300文字で節題に合う文章を投稿してください" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                             <input type="text" id="xxxx">/300
                     </div>
                     <p><input type="checkbox" name="check" value="prop" id="prop">：伏線アリならチェックを入れる</p>
                     <div class="form-group box4">
-                            <textarea name="under_plot" cols="50" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                            <textarea name="under_plot" cols="50" rows="5" placeholder="300文字でこの文章の意図や伏線などについて説明できます。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                             <input type="text" id="yyyy">/300  
                     </div>
                  </div>
@@ -71,6 +74,8 @@
             {!! Form::close() !!}
             </div>
             
+            <a href="/?sort=new">新しい順</a>
+            <a href="/?sort=nice">いいね順</a>
             </div>
             <div class="box2_under">
             <!--<div class="up"><i class="fas fa-2x fa-chevron-up"></i></div>-->
@@ -120,7 +125,7 @@
 
         <!--チャットここから-->
         <div class="row">
-            <div class="col-md-12 chat-comment">
+            <div class="col-md-10 chat-comment">
             最新の10件のチャット&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}
                 <div id="comment-data">
@@ -128,7 +133,6 @@
                 </div>
                 <br>
                 @if (Auth::id())
-                    <div class="col-md-8">
                         {!! Form::open(['route' => 'chats.store']) !!}
                         <div class="form-group">
                             <textarea onpaste="alert('ペースト禁止です'); return false;" name="content" id="chat_content_input" cols="50" rows="5"  wrap="off" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
@@ -155,7 +159,6 @@
                         </div>
                     {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                     {!! Form::close() !!}
-                    </div>
                 @endif
             </div>
         </div>

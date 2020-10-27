@@ -117,7 +117,7 @@ class SectionsController extends Controller
 
         return back();
     }
-    public function future_store(Request $request,$id)
+    public function future_store(Request $request)
     {
         // バリデーション
         $request->validate([
