@@ -10,7 +10,7 @@
     <div class="row">
         
         <div class="box2 col-md-6">
-            {!! 'いいねが1を超えたもの' !!}
+            いいねが{!! $book->setting_nice_number !!}を超えたもの
             @if (count($settings_adapt) > 0)
                 @foreach ($settings_adapt as $setting)
                     <div class="box3">
@@ -36,8 +36,8 @@
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
                 <div class="form-group setting-form">
-                    <textarea name="content" cols="50" rows="5" placeholder="300文字以内で追加したい設定を書き込んでください。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
-                    <input type="text" id="yyyy">/300
+                    <textarea name="content" cols="50" rows="5" wrap="hard" placeholder="100文字以内で追加したい設定を書き込んでください。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                    <input type="text" id="yyyy">/100
                     <p></p>
                     {!! Form::submit('設定を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                     {!! Form::close() !!}
@@ -113,7 +113,7 @@
                 <div class="col-md-6">
                     {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
                     <div class="form-group">
-                        <textarea name="content" cols="50" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                        <textarea name="content"  wrap="hard" cols="50" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                         <p><input type="text" id="xxxx">/300</p>
                         <script>
                         function lineCheck(e) {

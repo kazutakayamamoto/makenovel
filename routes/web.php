@@ -72,4 +72,5 @@ Route::group(['middleware' => ['auth']], function () {
     Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist');
     Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist');    
     Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
+    Route::resource('books', 'BooksController');
 });

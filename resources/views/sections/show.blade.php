@@ -5,7 +5,7 @@
 <script type="module" src="/js/index.1.js"></script>
     <div class="row">
             @if(!empty($section_tree))
-                この節では{!! $section_tree->content !!}について書いてください。
+                節題:{!! link_to_route('section_trees.index', $section_tree->content, ['class' => 'btn btn-primary']) !!}
             @endif
         <div class="box2 col-md-12">
             @foreach ($sections as $section)
@@ -67,8 +67,12 @@
                             <textarea name="under_plot" cols="60" rows="5" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                             <p><input type="text" id="yyyy">/300</p>  
                     </div>
+
+                <div class="col-md-5">
+                {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                 </div>
-            {!! Form::submit('Post', ['class' => 'btn btn-primary btn-block']) !!}
+
+                </div>
             {!! Form::close() !!}
             </div>
                 {!! Form::close() !!}

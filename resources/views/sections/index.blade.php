@@ -44,7 +44,7 @@
             @endfor
         </div>
         <div class="box2 col-md-6">
-            <p>ここが最新節です。</p>
+            <p>ここが最新節です。いいねが{!! $books->section_nice_number !!}を超えると節が移ります。</p>
             <div>
             @if(!empty($section_tree))
                 節題:{!! link_to_route('section_trees.index', $section_tree->content, ['class' => 'btn btn-primary']) !!}
@@ -61,12 +61,12 @@
                     <br>
                     {!! Form::open(['route' => 'sections.store']) !!}
                     <div class="form-group">  
-                            <textarea name="content" cols="50" rows="5" placeholder="300文字で節題に合う文章を投稿してください" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
+                            <textarea name="content" cols="50" rows="5" wrap="hard" placeholder="300文字で節題に合う文章を投稿してください" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                             <input type="text" id="xxxx">/300
                     </div>
                     <p><input type="checkbox" name="check" value="prop" id="prop">：伏線アリならチェックを入れる</p>
                     <div class="form-group box4">
-                            <textarea name="under_plot" cols="50" rows="5" placeholder="300文字でこの文章の意図や伏線などについて説明できます。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
+                            <textarea name="under_plot" cols="50" rows="5" wrap="hard" placeholder="300文字でこの文章の意図や伏線などについて説明できます。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
                             <input type="text" id="yyyy">/300  
                     </div>
                  </div>
@@ -157,7 +157,9 @@
                             </script>
                         
                         </div>
+                    <div class="col-md-5">
                     {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
+                    </div>
                     {!! Form::close() !!}
                 @endif
             </div>

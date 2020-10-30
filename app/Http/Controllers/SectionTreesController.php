@@ -7,12 +7,14 @@ use App\SectionTreeNice;
 use App\User;
 use App\Nice;
 use App\UnderPlot;
+use App\Book;
 use Illuminate\Http\Request;
 
 class SectionTreesController extends Controller
 {
     public function index(Request $request)
     {
+        $books=Book::first();
         $section_trees = SectionTree::withCount('nices')->orderBy('nices_count','desc')->get();
         $max_section_number = SectionTree::max('section_number');
         if(!empty($section_trees->where('section_number',$max_section_number)->first())){
@@ -20,20 +22,30 @@ class SectionTreesController extends Controller
         }else{
             $a=0;
         }
-        if($a>1||$max_section_number==NULL){
+        if($a>$books->section_nice_number){
             $user = User::first();
             $user->section_trees()->create([
                 'books_id'=>1,
-                'content' => 'いいねが2を超えたので新しいセクションツリーが作られました。 投稿してください。',
+                'content' => "いいねが一定値を超えたので新しいセクションツリーが作られました。 投稿してください。",
                 'section_number'=>$max_section_number+1,
             ]);
             return back();
+        }
+        if($max_section_number==NULL){
+            $user = User::first();
+            $new_section_tree=new SectionTree;
+            $new_section_tree->user_id=1;
+            $new_section_tree->books_id=1;
+            $new_section_tree->section_number=1;
+            $new_section_tree->content='いいねが一定値を超えたので新しいセクションツリーが作られました。 投稿してください。';
+            $new_section_tree->save();
         }
         $number = Section::max('section_number');
         return view('section_tree.index', [
             'section_trees' => $section_trees,
             'max_section_number'=>$max_section_number,
             'number' => $number,
+            'books' => $books,
         ]);
     }
     /**
@@ -56,7 +68,7 @@ class SectionTreesController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:300',
+            'content' => 'required|max:50',
         ]);
         
         $max_section_number=SectionTree::max('section_number');
@@ -75,7 +87,7 @@ class SectionTreesController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'content' => 'required|max:50',
         ]);
         $max_section_number=Section::max('section_number');
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）

@@ -3,6 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <p>ここでは50字までの短い文章でこの物語の方向性を決定していきます。</p>
+    <p>いいねが{{$books->section_nice_number}}を超えると次のセクションツリーができます。</p>
     <div class="row">
          <div class="col-sm-10">
             @for ($i = 1; $i < $max_section_number+1; $i++)

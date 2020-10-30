@@ -5,11 +5,13 @@
 <script type="module" src="/js/index.1.js"></script>    
     <div class="row">
         {!! link_to_route('section_trees.index', 'セクションツリーに戻る', ['class' => 'btn btn-primary']) !!}
+        
         <div class="box2 col-md-12">
+            <p>いいねの順番で1番目がセクションツリーのページに反映されます。</p>
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['section_trees.store2',$section_number]]) !!}
                 <div class="form-group setting-form">
-                    <textarea name="content" maxlength="50" cols="50" rows="2" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
+                    <textarea name="content" cols="50" rows="4"  wrap="hard" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
                     <p><input type="text" id="zzzz">/50</p>
                      {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                 </div>

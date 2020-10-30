@@ -5,6 +5,7 @@ use App\Word;
 use App\Setting;
 use App\SettingNice;
 use App\SettingChat;
+use App\Book;
 
 use Illuminate\Http\Request;
 
@@ -62,6 +63,7 @@ class WordsController extends Controller
      */
     public function show($id)
     {
+        $book = Book::first();
         $word = Word::where('id',$id)->first();
         $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
         foreach($chats as $chat){
@@ -76,8 +78,8 @@ class WordsController extends Controller
         }
         
         $query = Setting::where('word_id',$id)->withCount('nices');
-        $settings_adapt = Setting::fromSub($query, 'alias')->where('nices_count','>',1)->orderBy('nices_count','desc')->get();
-        $settings_stay = Setting::fromSub($query, 'alias')->where('nices_count','<=',1)->orderBy('nices_count','desc')->get();
+        $settings_adapt = Setting::fromSub($query, 'alias')->where('nices_count','>',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
+        $settings_stay = Setting::fromSub($query, 'alias')->where('nices_count','<=',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
         // $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->orderBy('nices_count','desc')->get();
         // $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
         
@@ -87,6 +89,7 @@ class WordsController extends Controller
             'settings_adapt'=>$settings_adapt,
             'settings_stay'=>$settings_stay,
             'chats'=>$chats,
+            'book'=>$book,
         ]);
     }
 

@@ -7,6 +7,8 @@ use App\User;
 use App\Nice;
 use App\UnderPlot;
 use App\Word;
+use App\Book;
+
 use Illuminate\Http\Request;
 
 class SectionsController extends Controller
@@ -19,6 +21,18 @@ class SectionsController extends Controller
     
     public function index(Request $request)
     {
+        $books=Book::first();
+        if(is_null($books)){
+            $new_book = new Book;
+            $new_book->user_id = 1; 
+            $new_book->title = 'メインプロジェクト';
+            $new_book->subject = 'メインプロジェクト';
+            $new_book->section_nice_number=1;
+            $new_book->setting_nice_number=1;
+            $new_book->save();            
+        }
+
+        $user=User::first();
 
         // メッセージ一覧を取得
         $sections = Section::withCount('nices')->orderBy('nices_count','desc')->get();
@@ -29,15 +43,25 @@ class SectionsController extends Controller
         }else{
             $a=0;
         }
-        if($a>1){
-            $user = User::first();
-            $user->sections()->create([
-                'books_id'=>1,
-                'content' => 'いいねが2を超えたので新しいセクションが作られました。',
-                'section_number'=>$max_section_number+1,
-            ]);
+        if($max_section_number==NULL&&!is_null($user)){
+            $new_section = new Section;
+            $new_section->user_id = 1; 
+            $new_section->books_id = 1; 
+            $new_section->content = '節題にあったセクションを投稿してください';
+            $new_section->section_number=1;
+            $new_section->save();
             return redirect('/');
         }
+        if($a>$books->section_nice_number&&!is_null($user)){
+            $new_section = new Section;
+            $new_section->user_id = 1; 
+            $new_section->books_id = 1; 
+            $new_section->content = "いいねが一定値を超えたので新しいセクションが作られました。";
+            $new_section->section_number=$max_section_number+1;
+            $new_section->save();
+            return redirect('/');
+        }
+        
         if($request->sort=='new'){
             $new_sections=Section::where('section_number',$max_section_number)->orderBy('created_at','desc')->get();
         }else{
@@ -55,12 +79,21 @@ class SectionsController extends Controller
                 ]);                
             }
         }
+        if(\Auth::check()){
+            $user = \Auth::user();
+            if ($user->is_black(\Auth::id())) {
+                \Auth::logout();
+                return redirect('/');
+            }
+        }
+        
         // メッセージ一覧ビューでそれを表示
         return view('sections.index', [
             'sections' => $sections,
             'max_section_number'=>$max_section_number,
             'new_sections'=>$new_sections,
             'section_tree'=>$section_tree,
+            'books'=>$books,
         ]);
     }
     /**
@@ -104,7 +137,7 @@ class SectionsController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'content' => 'required|max:300',
         ]);
         $max_section_number=Section::max('section_number');
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
@@ -121,7 +154,7 @@ class SectionsController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:255',
+            'content' => 'required|max:300',
         ]);
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->sections()->create([
