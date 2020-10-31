@@ -23,7 +23,7 @@
     margin-right:30px;
     box-shadow: 2px 2px 4px gray;
     font-family: 'Noto Sans JP', sans-serif;
-
+    word-break: break-all;
 }
 .box5{
     overflow-y: scroll;
@@ -152,6 +152,7 @@ textarea{
 width:100%;
 }
 .box3{
-width:100%;    
+width:100%;
+
 }
 }
