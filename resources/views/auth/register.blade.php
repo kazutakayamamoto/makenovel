@@ -7,7 +7,8 @@
 
     <div class="row">
         <div class="col-sm-6 offset-sm-3">
-
+            <p>sign upした後はメールを確認し認証を行ってください。</p>
+            <p>認証を行わないと文章を投稿などが行えません。</p>
             {!! Form::open(['route' => 'signup.post']) !!}
                 <div class="form-group">
                     {!! Form::label('name', 'Name') !!}
