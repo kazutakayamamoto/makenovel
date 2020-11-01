@@ -8,7 +8,10 @@
     <i class="fas fa-tree"></i>{!! link_to_route('section_trees.index', 'セクションツリー', ['class' => 'btn btn-primary']) !!}
     <div class="row">
         <div class="box2 col-md-6">
-            <p>採用された文章一覧</p>
+            <p>ここに1つの小説ができていきます。</p>
+            <p>300文字づつ節ごとに一番いい文章を選ぶという感じです。</p>
+            <p>節ごとにもっといい文章をほかの案を見るで投稿してください。</p>
+            <p>ほかの案を見るでこの節のよりよい案を投稿し、いいねが多ければその節の文章が変わります。</p>
             {!! link_to_route('section.futuresh', 'この先で使ってほしい展開文章') !!}
             <br>
             @for ($i = 1; $i < $max_section_number; $i++)
@@ -44,7 +47,7 @@
             @endfor
         </div>
         <div class="box2 col-md-6">
-            <p>ここが最新節です。いいねが{!! $books->section_nice_number !!}を超えると節が移ります。</p>
+            <p>ここが最新節です。続きを書くときはここに書いてください。いいねが{!! $books->section_nice_number !!}を超えると節が移ります。</p>
             <div>
             @if(!empty($section_tree))
                 節題:{!! link_to_route('section_trees.index', $section_tree->content, ['class' => 'btn btn-primary']) !!}
