@@ -19,6 +19,8 @@ Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
 Route::get('/', 'SectionsController@index');
+Route::get('/makenovel/rule', 'SectionsController@rule')->name('makenovel.rule');
+
 Route::get('settings', 'WordsController@index');
 Route::get('/sections/future/', 'SectionsController@future_show')->name('section.futuresh');
 

@@ -105,7 +105,12 @@ class SectionsController extends Controller
     {
 
     }
-
+    
+    public function rule()
+    {
+        return view('auth.rule', [
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *

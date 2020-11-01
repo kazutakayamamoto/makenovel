@@ -15,11 +15,15 @@
                 <a class="navbar-brand" href="/">みんなで小説を作ろう</a>
 
                 <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#nav-bar">
-                    <span class="navbar-toggler-icon"></span>
+                    <span class="navbar-toggler-icon">
+                        
+                    </span>
                 </button>
 
                 <div class="collapse navbar-collapse" id="nav-bar">
-                    <ul class="navbar-nav mr-auto"></ul>
+                    <ul class="navbar-nav mr-auto">
+                        {!! link_to_route('makenovel.rule', '利用規約', ['class' => 'btn btn-primary']) !!}
+                    </ul>
                     <ul class="navbar-nav">
                         
                          @if (Auth::check())
