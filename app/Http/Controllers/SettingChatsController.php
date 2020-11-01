@@ -84,6 +84,10 @@ class SettingChatsController extends Controller
      */
     public function store(Request $request,$id)
     {
+        $request->validate([
+            'content' => 'required|max:300',
+        ]);
+
         $new_section = new SettingChat;
         $new_section->user_id = \Auth::id(); 
         $new_section->word_id = $id; 

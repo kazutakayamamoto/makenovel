@@ -7,7 +7,9 @@
             @if(!empty($section_tree))
                 この節では{!! $section_tree->content !!}について書いてください。
             @endif
-        <div class="box2 col-md-12">
+        <p>ここには適当に思いついた展開とかこういう文章はどうかといった提案などを行う場所です。</p>
+        <p>必ずしもここに書かれたものがメインページで使われるとは限りません。</p>
+        <div class="box2 col-lg-12">
             @foreach ($sections as $section)
                 @if (count($sections) > 0)
                     <ul class="list-unstyled">
@@ -43,7 +45,7 @@
     </div>    
     
         <div class="row">
-            <div class="box2 col-md-12">
+            <div class="box2 col-lg-12">
                 <br>
                 {!! Form::open(['route' => ['section.futurest']]) !!}
                         <div class="form-group">
@@ -52,7 +54,7 @@
                             
                         
                         </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                 {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                 </div>
                 {!! Form::close() !!}

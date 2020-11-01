@@ -1,4 +1,13 @@
 $(function() {
+    $('.underplot_show').click(function(){
+      $(this).find('.underplot_content').toggle();
+    });
+    $('.show_plus_section').click(function(){
+      $('.plus_section').toggle();
+    });
+});
+
+$(function() {
   $(".box4").hide();
   // チェックボックスをチェックしたら発動
   $('input[name="check"]').change(function() {
@@ -16,14 +25,6 @@ $(function() {
   });
 });
 
-$(function() {
-    $('.underplot_show').click(function(){
-      $(this).find('.underplot_content').toggle();
-    });
-    $('.show_plus_section').click(function(){
-      $('.plus_section').toggle();
-    });
-});
 
 function get_data() {
     $.ajax({

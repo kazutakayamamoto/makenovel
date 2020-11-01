@@ -3,11 +3,11 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.js"></script>
-
+    <p>メインページ</p>
     {!! link_to_route('words.index', 'この小説の設定一覧', ['class' => 'btn btn-primary']) !!}&nbsp;&nbsp;
     <i class="fas fa-tree"></i>{!! link_to_route('section_trees.index', 'セクションツリー', ['class' => 'btn btn-primary']) !!}
     <div class="row">
-        <div class="box2 col-md-6">
+        <div class="box2 col-lg-6">
             <p>ここに1つの小説ができていきます。</p>
             <p>300文字づつ節ごとに一番いい文章を選ぶという感じです。</p>
             <p>節ごとにもっといい文章をほかの案を見るで投稿してください。</p>
@@ -46,7 +46,7 @@
                 @endforeach
             @endfor
         </div>
-        <div class="box2 col-md-6">
+        <div class="box2 col-lg-6">
             <p>ここが最新節です。続きを書くときはここに書いてください。いいねが{!! $books->section_nice_number !!}を超えると節が移ります。</p>
             <div>
             @if(!empty($section_tree))
@@ -59,8 +59,8 @@
             
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             
-            <div class="row plus_section">
-                <div class="box5 col-md-12">
+            <div class="plus_section">
+                <div class="box5 col-lg-12">
                     <br>
                     {!! Form::open(['route' => 'sections.store']) !!}
                     <div class="form-group">  
@@ -128,7 +128,7 @@
 
         <!--チャットここから-->
         <div class="row">
-            <div class="col-md-10 chat-comment">
+            <div class="col-lg-10 chat-comment">
             最新の10件のチャット&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}
                 <div id="comment-data">
@@ -160,7 +160,7 @@
                             </script>
                         
                         </div>
-                    <div class="col-md-5">
+                    <div class="col-lg-5">
                     {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                     </div>
                     {!! Form::close() !!}

@@ -111,6 +111,11 @@ class SectionsController extends Controller
         return view('auth.rule', [
         ]);
     }
+    public function privacy()
+    {
+        return view('auth.privacy', [
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -186,7 +191,7 @@ class SectionsController extends Controller
         return view('sections.show', [
             'sections' => $sections,
             'section_tree' => $section_tree,
-        ]);        
+        ]);
     }
     public function future_show()
     {
@@ -194,7 +199,7 @@ class SectionsController extends Controller
         // メッセージ一覧ビューでそれを表示
         return view('sections.future_show', [
             'sections' => $sections,
-        ]);        
+        ]);
     }
     
     /**

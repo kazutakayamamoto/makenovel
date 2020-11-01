@@ -9,7 +9,7 @@
     <p>{!! '名前:' !!}{!! $word->name !!}</p>
     <div class="row">
         
-        <div class="box2 col-md-6">
+        <div class="box2 col-lg-6">
             いいねが{!! $book->setting_nice_number !!}を超えたもの
             @if (count($settings_adapt) > 0)
                 @foreach ($settings_adapt as $setting)
@@ -31,7 +31,7 @@
                 @endforeach
             @endif
         </div>
-        <div class="box2 col-md-6">
+        <div class="box2 col-lg-6">
             
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['settings.store', $word->id]]) !!}
@@ -68,7 +68,7 @@
     
         <!--チャットここから-->
         <div class="row">
-                <div class="col-md-12 chat-comment">
+                <div class="col-lg-12 chat-comment">
                 <!--<i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る', ['class' => 'btn btn-primary']) !!}-->
                 
                 <p>{!! $word->name !!}について語るスレ</p>
@@ -110,7 +110,7 @@
                 <!--    <div id="comment-data"></div>-->
                 <!--</div>-->
                 <br>
-                <div class="col-md-6">
+                <div class="col-lg-6">
                     {!! Form::open(['route' => ['settingchats.store', $word->id]]) !!}
                     <div class="form-group">
                         <textarea name="content"  wrap="hard" cols="50" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>

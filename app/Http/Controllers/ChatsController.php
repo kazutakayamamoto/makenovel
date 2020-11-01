@@ -86,6 +86,9 @@ class ChatsController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'content' => 'required|max:300',
+        ]);
         $new_section = new Chat;
         $new_section->user_id = \Auth::id(); 
         $new_section->books_id = 1; 
