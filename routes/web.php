@@ -45,76 +45,76 @@ Route::get('/section_tree/{id}', 'SectionTreesController@show')->name('section_t
 Route::post('/chat/show/{id}', 'ChatsController@show')->name('chat.show');
 
 Route::group(['middleware' => ['auth']], function () {
-    // Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2')->middleware('verified');
-    // Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2')->middleware('verified');
+    Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2')->middleware('verified');
+    Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2')->middleware('verified');
     
-    // Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice')->middleware('verified');
-    // Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice')->middleware('verified');
-    // Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice')->middleware('verified');
-    // Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice')->middleware('verified');
-    // Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice')->middleware('verified');
-    // Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store')->middleware('verified');
-    // Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create')->middleware('verified');
+    Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice')->middleware('verified');
+    Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice')->middleware('verified');
+    Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice')->middleware('verified');
+    Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice')->middleware('verified');
+    Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice')->middleware('verified');
+    Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store')->middleware('verified');
+    Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create')->middleware('verified');
     
-    // Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store')->middleware('verified');
-    // Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create')->middleware('verified');
+    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store')->middleware('verified');
+    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create')->middleware('verified');
     
-    // Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice')->middleware('verified');
-
-    // Route::group(['prefix' => '/words/{id}'], function () {
-    //     Route::resource('settings', 'SettingsController')->middleware('verified');
-    // });
-    // Route::group(['prefix' => '/words/chat/{id}'], function () {
-    //     Route::resource('settingchats', 'SettingChatsController')->middleware('verified');
-    // });
-    // Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest')->middleware('verified');
-    // Route::resource('sections', 'SectionsController',['only' => ['store']])->middleware('verified');
-    // Route::resource('chats', 'ChatsController',['only' => ['store']])->middleware('verified');
-    // Route::resource('words', 'WordsController',['only' => ['store']])->middleware('verified');
-    // Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy')->middleware('verified');
-    // Route::post('/word/update/{id}', 'WordsController@update')->name('words.update')->middleware('verified');
-    // Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist')->middleware('verified');
-    // Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist')->middleware('verified');    
-    // Route::resource('section_trees', 'SectionTreesController',['only' =>'store'])->middleware('verified');
-    // Route::resource('books', 'BooksController')->middleware('verified');
-    
-    
-    
-    
-    
-    
-    Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
-    Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2');
-    
-    Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice');
-    Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice');
-    Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice');
-    Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice');
-    Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice');
-    Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store');
-    Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create');
-    
-    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store');
-    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create');
-    
-    Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice');
+    Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice')->middleware('verified');
 
     Route::group(['prefix' => '/words/{id}'], function () {
-        Route::resource('settings', 'SettingsController');
+        Route::resource('settings', 'SettingsController')->middleware('verified');
     });
     Route::group(['prefix' => '/words/chat/{id}'], function () {
-        Route::resource('settingchats', 'SettingChatsController');
+        Route::resource('settingchats', 'SettingChatsController')->middleware('verified');
     });
-    Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest');
-    Route::resource('sections', 'SectionsController',['only' => ['store']]);
-    Route::resource('chats', 'ChatsController',['only' => ['store']]);
-    Route::resource('words', 'WordsController',['only' => ['store']]);
-    Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy');
-    Route::post('/word/update/{id}', 'WordsController@update')->name('words.update');
-    Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist');
-    Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist');    
-    Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
-    Route::resource('books', 'BooksController');
+    Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest')->middleware('verified');
+    Route::resource('sections', 'SectionsController',['only' => ['store']])->middleware('verified');
+    Route::resource('chats', 'ChatsController',['only' => ['store']])->middleware('verified');
+    Route::resource('words', 'WordsController',['only' => ['store']])->middleware('verified');
+    Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy')->middleware('verified');
+    Route::post('/word/update/{id}', 'WordsController@update')->name('words.update')->middleware('verified');
+    Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist')->middleware('verified');
+    Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist')->middleware('verified');    
+    Route::resource('section_trees', 'SectionTreesController',['only' =>'store'])->middleware('verified');
+    Route::resource('books', 'BooksController')->middleware('verified');
+    
+    
+    
+    
+    
+    
+    // Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
+    // Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2');
+    
+    // Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice');
+    // Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice');
+    // Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice');
+    // Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice');
+    // Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice');
+    // Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store');
+    // Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create');
+    
+    // Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store');
+    // Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create');
+    
+    // Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice');
+
+    // Route::group(['prefix' => '/words/{id}'], function () {
+    //     Route::resource('settings', 'SettingsController');
+    // });
+    // Route::group(['prefix' => '/words/chat/{id}'], function () {
+    //     Route::resource('settingchats', 'SettingChatsController');
+    // });
+    // Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest');
+    // Route::resource('sections', 'SectionsController',['only' => ['store']]);
+    // Route::resource('chats', 'ChatsController',['only' => ['store']]);
+    // Route::resource('words', 'WordsController',['only' => ['store']]);
+    // Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy');
+    // Route::post('/word/update/{id}', 'WordsController@update')->name('words.update');
+    // Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist');
+    // Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist');    
+    // Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
+    // Route::resource('books', 'BooksController');
 
     
 });
