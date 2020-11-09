@@ -16,12 +16,14 @@ class WordsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($bookId)
     {
-        $words = Word::all();
+        $words = Word::where('books_id',$bookId)->get();
+        $books=Book::where('id',$bookId)->first();
         // メッセージ一覧ビューでそれを表示
         return view('words.index', [
             'words' => $words,
+            'books'=>$books,
         ]);
     }
 
@@ -41,7 +43,7 @@ class WordsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$bookId)
     {
         // バリデーション
         $request->validate([
@@ -49,7 +51,7 @@ class WordsController extends Controller
         ]);
         
         $new_word = new Word;
-        $new_word->book_id = 1; 
+        $new_word->books_id = $bookId; 
         $new_word->name=$request->name;
         $new_word->save();
         return back();
@@ -61,9 +63,9 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($booksId,$id)
     {
-        $book = Book::first();
+        $book = Book::where('id',$booksId)->first();
         $word = Word::where('id',$id)->first();
         $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
         foreach($chats as $chat){
@@ -89,7 +91,7 @@ class WordsController extends Controller
             'settings_adapt'=>$settings_adapt,
             'settings_stay'=>$settings_stay,
             'chats'=>$chats,
-            'book'=>$book,
+            'books'=>$book,
         ]);
     }
 
@@ -111,7 +113,7 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$booksId,$id)
     {
         $word = Word::findOrFail($id);
         $word->name = $request->name;
@@ -126,7 +128,7 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($booksId,$id)
     {
         $word = Word::findOrFail($id);
         $word->delete();

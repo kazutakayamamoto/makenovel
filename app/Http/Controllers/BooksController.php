@@ -41,21 +41,19 @@ class BooksController extends Controller
     {
         // バリデーション
         $request->validate([
-            'content' => 'required|max:300',
-            'under_plot'=>'max:300',
+            'title' => 'required|max:30',
+            'subject'=>'required|max:600',
+            'section_nice_number' => 'required|integer',
+            'setting_nice_number'=>'required|integer',
         ]);
-        
-        $max_section_number=Section::max('section_number');
-        if($max_section_number==null)$max_section_number=1;
-        // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
-        $new_section = new Section;
-        $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = 1; 
-        $new_section->content = $request->content;
-        $new_section->section_number=$max_section_number;
-        $new_section->under_plot = $request->under_plot;
-        $new_section->save();
-        return redirect('/');
+        $book = new Book;
+        $book->user_id=\Auth::id();
+        $book->title=$request->title;
+        $book->subject=$request->subject;
+        $book->section_nice_number=$request->section_nice_number;
+        $book->setting_nice_number=$request->setting_nice_number;
+        $book->save();
+        return back();
     }
 
     public function edit($id)

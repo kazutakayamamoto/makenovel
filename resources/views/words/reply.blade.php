@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <a href="/">ホームへ戻る</a>
-    {!! Form::open(['route' => ['settingchatsreply.store',$word_id,$chat_id]]) !!}
+    {!! Form::open(['route' => ['settingchatsreply.store',$books->id,$word_id,$chat_id]]) !!}
         <textarea onpaste="alert('ペースト禁止です'); return false;" name="content" id="chat_content_input" cols="50" rows="5"  wrap="off" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
         <p><input type="text" id="zzzz">/300</p>
         

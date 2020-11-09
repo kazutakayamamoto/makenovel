@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Chat;
+use App\Book;
 use Illuminate\Http\Request;
 
 class ChatsController extends Controller
@@ -11,9 +12,10 @@ class ChatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($booksId)
     {
-        $chats = Chat::orderBy('created_at', 'desc')->paginate(15);
+        $chats = Chat::where('books_id',$booksId)->orderBy('created_at', 'desc')->paginate(15);
+        $books=Book::where('id',$booksId)->first();
         foreach($chats as $chat){
             $reply_number = $chat->replies->first();
             $replier_number = $chat->repliers->count();
@@ -26,12 +28,13 @@ class ChatsController extends Controller
         }
         return view('chats.index', [
             'chats' => $chats,
+            'books'=>$books,
         ]);                
     }
     
-    public function getData()
+    public function getData($booksId)
     {
-        $chats = Chat::orderBy('created_at', 'desc')->take(10)->get();
+        $chats = Chat::where('books_id',$booksId)->orderBy('created_at', 'desc')->take(10)->get();
         foreach($chats as $chat){
             $name=$chat->user->name;
             $chat->name=$name;
@@ -84,17 +87,17 @@ class ChatsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request,$booksId)
     {
         $request->validate([
             'content' => 'required|max:300',
         ]);
         $new_section = new Chat;
         $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = 1; 
+        $new_section->books_id = $booksId; 
         $new_section->content = $request->content;
         $new_section->save();
-        return redirect('/');        
+        return back();        
     }
     /**
      * Display the specified resource.
@@ -102,8 +105,9 @@ class ChatsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($booksId,$id)
     {
+        $books=Book::where('id',$booksId)->first();
         $chat_mother = Chat::where('id',$id)->first();
         $chats = $chat_mother->repliers;
         
@@ -128,6 +132,7 @@ class ChatsController extends Controller
         return view('chats.show', [
             'chats' => $chats,
             'chat_mother' => $chat_mother,
+            'books'=>$books,
         ]);                        
     }
 

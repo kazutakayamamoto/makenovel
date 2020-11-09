@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    
+    <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
     <p>ここでは50字までの短い文章でこの物語の方向性を決定していきます。</p>
     <p>メインページやほかの案を見るでの節題はここの文章が採用されるので先にここを進めてください。</p>
     <p>メインページの内容が軽くわかるような感じにしたいです。</p>
@@ -13,7 +13,7 @@
                     @foreach ($section_trees->where('section_number',$i) as $section_tree)
                         <p class="section_tree_leaf col-sm-10">{!! $section_tree->section_number !!}.{!! $section_tree->content !!}
                         <br>
-                        {!! link_to_route('section_trees.show','他の案を見る', ['id' => $section_tree->section_number],['class' => 'section_tree_another']) !!}
+                        {!! link_to_route('section_trees.show','他の案を見る', [$books->id,$section_tree->section_number],['class' => 'section_tree_another']) !!}
                         </p>
                         
                         <i class="fas fa-2x fa-arrow-down"></i>
@@ -26,13 +26,6 @@
             @endfor
         </div>
     </div>
-    <!--{!! Form::open(['route' => 'section_trees.store']) !!}-->
-    <!--    <div class="form-group">  -->
-    <!--        {!! Form::textarea('content', old('content'), ['class' => 'form-control']) !!}-->
-    <!--    </div>-->
-    <!-- </div>-->
-    <!--<input class="btn btn-default form-control" type="submit" name="追加する">-->
-    <!--{!! Form::close() !!}-->
 @endsection
 
 

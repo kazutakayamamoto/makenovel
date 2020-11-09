@@ -22,7 +22,8 @@
 
                 <div class="collapse navbar-collapse" id="nav-bar">
                     <ul class="navbar-nav mr-auto">
-                        {!! link_to_route('makenovel.rule', '利用規約', ['class' => 'btn btn-primary']) !!}
+                        <li>{!! link_to_route('makenovel.rule', '利用規約') !!}</li>
+                        <li>{!! link_to_route('users.index', 'ユーザーページ', ['class' => 'btn btn-primary']) !!}</li>
                     </ul>
                     <ul class="navbar-nav">
                         

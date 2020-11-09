@@ -4,9 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     
     <div class="row">
-            @if(!empty($section_tree))
-                この節では{!! $section_tree->content !!}について書いてください。
-            @endif
+        <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
         <p>ここには適当に思いついた展開とかこういう文章はどうかといった提案などを行う場所です。</p>
         <p>必ずしもここに書かれたものがメインページで使われるとは限りません。</p>
         <div class="box2 col-lg-12">
@@ -25,11 +23,11 @@
                                         <p class="mb-0">{!! nl2br(e($section->content)) !!}</p>
                                             @if (Auth::id())
                                                 @if ($section->is_nice($section->id,Auth::id()))
-                                                    {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
+                                                    {!! Form::open(['route' => ['section.unnice',$books->id,$section->id],'method' => 'delete']) !!}
                                                         <button class="nice unnice" type="button submit">いいねを外す</button>
                                                     {!! Form::close() !!}
                                                 @else
-                                                    {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
+                                                    {!! Form::open(['route' => ['section.nice',$books->id,$section->id]]) !!}
                                                         <button class="nice" type="button submit">いいね</button>
                                                     {!! Form::close() !!}
                                                 @endif
@@ -47,7 +45,7 @@
         <div class="row">
             <div class="box2 col-lg-12">
                 <br>
-                {!! Form::open(['route' => ['section.futurest']]) !!}
+                {!! Form::open(['route' => ['section.futurest',$books->id]]) !!}
                         <div class="form-group">
                             <textarea name="content" id="chat_content_input" cols="50" rows="5" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
                             <p><input type="text" id="zzzz">/300</p>

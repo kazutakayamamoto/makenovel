@@ -4,8 +4,9 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.1.js"></script>
     <div class="row">
+        <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
             @if(!empty($section_tree))
-                節題:{!! link_to_route('section_trees.index', $section_tree->content, ['class' => 'btn btn-primary']) !!}
+                節題:{!! link_to_route('section_trees.index', $section_tree->content,[$books->id], ['class' => 'btn btn-primary']) !!}
             @endif
         <div class="box2 col-lg-12">
             @foreach ($sections as $section)
@@ -29,11 +30,11 @@
                                         @endif
 
                                         @if ($section->is_nice($section->id,Auth::id()))
-                                            {!! Form::open(['route' => ['section.unnice', $section->id],'method' => 'delete']) !!}
+                                            {!! Form::open(['route' => ['section.unnice', $books->id,$section->id],'method' => 'delete']) !!}
                                                 <button class="nice unnice" type="button submit">いいねを外す</button>
                                             {!! Form::close() !!}
                                         @else
-                                            {!! Form::open(['route' => ['section.nice', $section->id]]) !!}
+                                            {!! Form::open(['route' => ['section.nice', $books->id,$section->id]]) !!}
                                                 <button class="nice" type="button submit">いいね</button>
                                             {!! Form::close() !!}
                                         @endif
@@ -51,13 +52,13 @@
         <div class="row">
             <div class="box2 col-lg-12">
                 @if (count($sections) > 0)
-                {!! Form::open(['route' => ['section.store2', $section->section_number]]) !!}
+                {!! Form::open(['route' => ['section.store2', $books->id,$section->section_number]]) !!}
                 @else
-                {!! Form::open(['route' => ['section.store2', 0]]) !!}
+                {!! Form::open(['route' => ['section.store2', $books->id,0]]) !!}
                 @endif
                 <div class="box5 col-lg-12">
                     <br>
-                    {!! Form::open(['route' => 'sections.store']) !!}
+                    {!! Form::open(['route' => ['sections.store',$books->id]]) !!}
                     <div class="form-group">  
                             <textarea name="content" cols="60" rows="5" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
                             <p><input type="text" id="xxxx">/300</p>

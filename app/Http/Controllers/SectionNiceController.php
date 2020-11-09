@@ -33,7 +33,7 @@ class SectionNiceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store($id)
+    public function store($booksId,$id)
     {
         Nice::create([
             'section_id'=>$id,
@@ -83,7 +83,7 @@ class SectionNiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($booksId,$id)
     {
         $nice=Nice::where('section_id',$id)->where('user_id',\Auth::id())->first();
         $nice->delete();

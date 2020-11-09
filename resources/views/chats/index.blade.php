@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/chat.js"></script>
-    <a href="/">ホームへ戻る</a>
+    <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
     {{ $chats->links() }}
     @if (count($chats) > 0)
         @foreach ($chats as $chat)
@@ -22,13 +22,13 @@
                     @endif
                     <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
                     @if(!empty($chat->replier_number))
-                    {!! Form::open(['route' => ['chat.show', $chat->id]]) !!}
+                    {!! Form::open(['route' => ['chat.show',$books->id,$chat->id]]) !!}
                         <button class="btn btn-reply" type="button submit">{!! $chat->replier_number !!}件の返信</button>
                     {!! Form::close() !!}
                     @endif
                     
                     
-                    {!! Form::open(['route' => ['reply.create', $chat->id]]) !!}
+                    {!! Form::open(['route' => ['reply.create', $books->id,$chat->id]]) !!}
                         <button class="nice unnice" type="button submit">返信する</button>
                     {!! Form::close() !!}
                 </div>

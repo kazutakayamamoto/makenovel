@@ -32,7 +32,7 @@ class SettingsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request,$booksId,$id)
     {
         $request->validate([
             'content' => 'required|max:100',

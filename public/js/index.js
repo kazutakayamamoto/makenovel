@@ -28,7 +28,7 @@ $(function() {
 
 function get_data() {
     $.ajax({
-        url: "result/ajax",
+        url: bookid+"/result/ajax",
         dataType: "json",
         success: data => {
             $("#comment-data")

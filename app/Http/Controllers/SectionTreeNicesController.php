@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class SectionTreeNicesController extends Controller
 {
-    public function store($id)
+    public function store($booksId,$id)
     {
         SectionTreeNice::create([
             'section_tree_id'=>$id,
@@ -15,7 +15,7 @@ class SectionTreeNicesController extends Controller
         //return redirect('/');
         return back();
     }
-    public function destroy($id)
+    public function destroy($booksId,$id)
     {
         $nice=SectionTreeNice::where('section_tree_id',$id)->where('user_id',\Auth::id())->first();
         $nice->delete();

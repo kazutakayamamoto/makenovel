@@ -18,67 +18,75 @@ Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
 Route::post('login', 'Auth\LoginController@login')->name('login.post');
 Route::get('logout', 'Auth\LoginController@logout')->name('logout.get');
 
-Route::get('/', 'SectionsController@index');
+Route::get('/', 'SectionsController@mainpage');
+Route::get('/{bookid}', 'SectionsController@index')->name('section.main');
 Route::get('/makenovel/rule', 'SectionsController@rule')->name('makenovel.rule');
 Route::get('/makenovel/rule/privacy', 'SectionsController@privacy')->name('rule.privacy');
 
-Route::get('settings', 'WordsController@index');
-Route::get('/sections/future/', 'SectionsController@future_show')->name('section.futuresh');
 
-Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
-Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
+Route::group(['prefix' => '/{bookid}'], function () {
+    Route::get('settings', 'WordsController@index');
+    
+    Route::get('/sections/future/', 'SectionsController@future_show')->name('section.futuresh');
+    
+    Route::resource('sections', 'SectionsController',['only' => ['index', 'show']]);
+    Route::resource('chats', 'ChatsController',['only' => ['index', 'show']]);
+    
+    Route::resource('words', 'WordsController',['only' => ['index', 'show']]);
+    Route::resource('section_trees', 'SectionTreesController',['only' => ['index', 'show']]);
+    
+    
+    
+    
+    
+    Route::post('/setting/chat/reply/{id}', 'SettingChatsController@show')->name('settingchatreply.show');
+    
+    Route::get('/section_tree/{id}', 'SectionTreesController@show')->name('section_trees.show');
+    Route::post('/chat/show/{id}', 'ChatsController@show')->name('chat.show');
+    Route::get('/result/ajax', 'ChatsController@getData');
+});
 
-Route::resource('words', 'WordsController',['only' => ['index', 'show']]);
-Route::resource('section_trees', 'SectionTreesController',['only' => ['index', 'show']]);
-
-
-
-
-Route::get('/result/ajax', 'ChatsController@getData');
-Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
-Route::get('/chat/reply/{id}', 'ChatsController@getReply');
-Route::get('/word/chat/reply/{id}', 'SettingChatsController@getReply');
-
-Route::post('/setting/chat/reply/{id}', 'SettingChatsController@show')->name('settingchatreply.show');
-
-Route::get('/section_tree/{id}', 'SectionTreesController@show')->name('section_trees.show');
-Route::post('/chat/show/{id}', 'ChatsController@show')->name('chat.show');
+    Route::get('/words/result/ajax/word/chat/{id}', 'SettingChatsController@getData');
+    Route::get('/chat/reply/{id}', 'ChatsController@getReply');
+    Route::get('/word/chat/reply/{id}', 'SettingChatsController@getReply');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2')->middleware('verified');
-    Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2')->middleware('verified');
+    Route::group(['prefix' => '/{bookid}'], function () {
+        
+        Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2')->middleware('verified');
+        Route::post('/section_tree/section_number/{id}/store', 'SectionTreesController@store2')->name('section_trees.store2')->middleware('verified');
+        
+        Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice')->middleware('verified');
+        Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice')->middleware('verified');
+        Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice')->middleware('verified');
+        Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice')->middleware('verified');
+        Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice')->middleware('verified');
+        Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store')->middleware('verified');
+        Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create')->middleware('verified');
+        
+        Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store')->middleware('verified');
+        Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create')->middleware('verified');
+        
+        Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice')->middleware('verified');
     
-    Route::post('/setting/nice/{id}', 'SettingNiceController@store')->name('setting.nice')->middleware('verified');
-    Route::delete('/setting/unnice/{id}', 'SettingNiceController@destroy')->name('setting.unnice')->middleware('verified');
-    Route::post('/section_tree/nice/{id}', 'SectionTreeNicesController@store')->name('section_tree.nice')->middleware('verified');
-    Route::delete('/section_tree/unnice/{id}', 'SectionTreeNicesController@destroy')->name('section_tree.unnice')->middleware('verified');
-    Route::post('/section/nice/{id}', 'SectionNiceController@store')->name('section.nice')->middleware('verified');
-    Route::post('/chat/reply/create/{id}/store', 'ChatReplyController@store')->name('reply.store')->middleware('verified');
-    Route::post('/chat/reply/create/{id}', 'ChatReplyController@create')->name('reply.create')->middleware('verified');
-    
-    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}/store', 'SettingChatReplyController@store')->name('settingchatsreply.store')->middleware('verified');
-    Route::post('/setting/chat/reply/{word_id}/chat/reply/create/{id}', 'SettingChatReplyController@create')->name('settingchatsreply.create')->middleware('verified');
-    
-    Route::delete('/section/unnice/{id}', 'SectionNiceController@destroy')->name('section.unnice')->middleware('verified');
-
-    Route::group(['prefix' => '/words/{id}'], function () {
-        Route::resource('settings', 'SettingsController')->middleware('verified');
-    });
-    Route::group(['prefix' => '/words/chat/{id}'], function () {
-        Route::resource('settingchats', 'SettingChatsController')->middleware('verified');
-    });
-    Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest')->middleware('verified');
-    Route::resource('sections', 'SectionsController',['only' => ['store']])->middleware('verified');
-    Route::resource('chats', 'ChatsController',['only' => ['store']])->middleware('verified');
-    Route::resource('words', 'WordsController',['only' => ['store']])->middleware('verified');
-    Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy')->middleware('verified');
-    Route::post('/word/update/{id}', 'WordsController@update')->name('words.update')->middleware('verified');
+        Route::group(['prefix' => '/words/{id}'], function () {
+            Route::resource('settings', 'SettingsController')->middleware('verified');
+        });
+        Route::group(['prefix' => '/words/chat/{id}'], function () {
+            Route::resource('settingchats', 'SettingChatsController')->middleware('verified');
+        });
+        Route::post('/sections/future/store', 'SectionsController@future_store')->name('section.futurest')->middleware('verified');
+        Route::resource('sections', 'SectionsController',['only' => ['store']])->middleware('verified');
+        Route::resource('chats', 'ChatsController',['only' => ['store']])->middleware('verified');
+        Route::resource('words', 'WordsController',['only' => ['store']])->middleware('verified');
+        Route::post('/word/destroy/{id}', 'WordsController@destroy')->name('words.destroy')->middleware('verified');
+        Route::post('/word/update/{id}', 'WordsController@update')->name('words.update')->middleware('verified');
+        Route::resource('section_trees', 'SectionTreesController',['only' =>'store'])->middleware('verified');
+    });    
+    Route::resource('books', 'BooksController')->middleware('verified');
+    Route::get('/userpage/index', 'UsersController@index')->middleware('verified')->name('users.index');
     Route::post('/user/blacklist/{id}', 'BlackListsController@edit')->name('user.blacklist')->middleware('verified');
     Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist')->middleware('verified');    
-    Route::resource('section_trees', 'SectionTreesController',['only' =>'store'])->middleware('verified');
-    Route::resource('books', 'BooksController')->middleware('verified');
-    
-    
     
     
     
@@ -115,6 +123,6 @@ Route::group(['middleware' => ['auth']], function () {
     // Route::post('/user/blacklist/destroy/{id}', 'BlackListsController@destroy')->name('destroy.blacklist');    
     // Route::resource('section_trees', 'SectionTreesController',['only' =>'store']);
     // Route::resource('books', 'BooksController');
-
+    //ユーザーページ
     
 });

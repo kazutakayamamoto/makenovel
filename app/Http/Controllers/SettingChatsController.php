@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 use App\SettingChat;
+use App\Book;
+use App\Word;
 use Illuminate\Http\Request;
 
 class SettingChatsController extends Controller
@@ -11,9 +13,10 @@ class SettingChatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index($booksId,$id)
     {
         $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
+        $books=Book::where('id',$booksId)->first();
         foreach($chats as $chat){
             $reply_number = $chat->replies->first();
             $replier_number = $chat->repliers->count();
@@ -26,6 +29,7 @@ class SettingChatsController extends Controller
         }
         return view('words.words_show', [
             'chats' => $chats,
+            'books'=>$books,
         ]);                
     }
     public function getData($id)
@@ -82,7 +86,7 @@ class SettingChatsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request,$id)
+    public function store(Request $request,$booksId,$id)
     {
         $request->validate([
             'content' => 'required|max:300',
@@ -102,8 +106,10 @@ class SettingChatsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($booksId,$id)
     {
+
+        $books=Book::where('id',$booksId)->first();
         $chat_mother = SettingChat::where('id',$id)->first();
         $chats = $chat_mother->repliers;
         
@@ -125,9 +131,12 @@ class SettingChatsController extends Controller
                 $chat->replier_number = $replier_number;
             }
         }
+        $word=Word::where('id',$chats->first()->word_id)->first();
         return view('words.wordshow', [
             'chats' => $chats,
             'chat_mother' => $chat_mother,
+            'books'=>$books,
+            'word'=>$word,
         ]);                        
     }
 

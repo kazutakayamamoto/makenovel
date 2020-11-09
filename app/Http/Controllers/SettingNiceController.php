@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\SettingNice;
 class SettingNiceController extends Controller
 {
-    public function store($id)
+    public function store($booksId,$id)
     {
         SettingNice::create([
             'setting_id'=>$id,
@@ -15,7 +15,7 @@ class SettingNiceController extends Controller
         //return redirect('/');
         return back();
     }
-    public function destroy($id)
+    public function destroy($booksId,$id)
     {
         $nice=SettingNice::where('setting_id',$id)->where('user_id',\Auth::id())->first();
         $nice->delete();
