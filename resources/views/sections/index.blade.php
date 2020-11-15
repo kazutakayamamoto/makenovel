@@ -50,7 +50,7 @@
             @endfor
         </div>
         <div class="box2 col-lg-6">
-            <p>ここが最新節です。続きを書くときはここに書いてください。いいねが{!! $books->section_nice_number !!}を超えると節が移ります。</p>
+            <p>ここが最新節です。続きを書くときはここに書いてください。いいねが{!! $books->section_nice_number !!}を超えると新しい節ができます。</p>
             <div>
             @if(!empty($section_tree))
                 節題:{!! link_to_route('section_trees.index', $section_tree->content,[$books->id]) !!}
