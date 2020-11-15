@@ -50,7 +50,7 @@ Route::group(['prefix' => '/{bookid}'], function () {
     Route::get('/chat/reply/{id}', 'ChatsController@getReply');
     Route::get('/word/chat/reply/{id}', 'SettingChatsController@getReply');
 
-Route::group(['middleware' => ['auth','verified']], function () {
+Route::group(['middleware' => ['auth']], function () {
     Route::group(['prefix' => '/{bookid}'], function () {
         
         Route::post('/sections/{id}', 'SectionsController@store2')->name('section.store2');
