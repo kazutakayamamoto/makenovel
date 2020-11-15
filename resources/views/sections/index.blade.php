@@ -79,10 +79,8 @@
             {!! Form::submit('文章を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
             {!! Form::close() !!}
             </div>
-            
-            <a href="/?sort=new">新しい順</a>
-            <a href="/?sort=nice">いいね順</a>
             </div>
+
             <div class="box2_under">
             <!--<div class="up"><i class="fas fa-2x fa-chevron-up"></i></div>-->
             @foreach ($new_sections as $section)

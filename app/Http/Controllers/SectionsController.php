@@ -20,17 +20,7 @@ class SectionsController extends Controller
      */
     public function mainpage()
     {
-        //管理ユーザーチェック
-        if(\Auth::check()){
-            if(\Auth::id()==1){
-                $words = Word::all();
-                $users = User::all();
-                return view('admin.word', [
-                    'users'=>$users,
-                    'words'=>$words,
-                ]);                
-            }
-        }
+        //ブラックリストに登録したユーザーをログアウト
         if(\Auth::check()){
             $user = \Auth::user();
             if ($user->is_black(\Auth::id())) {
@@ -38,6 +28,7 @@ class SectionsController extends Controller
                 return redirect('/');
             }
         }
+        //作成されている本を取得
         $books=Book::all();
         // メッセージ一覧ビューでそれを表示
         return view('sections.mainpage', [

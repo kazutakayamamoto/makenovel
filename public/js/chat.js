@@ -15,11 +15,11 @@ function get_data(a,b) {
             var html_head=`<div class="reply_content">`;
             html = `
                         <div id="reply_wrapper">
-                            <span class="chat_id">${data.chat.id}</span>
+                            <span class="chat_id">${data.chat.number}</span>
                             <span class="chat_user">${data.chat.name}</span><span class="chat_time">${data.chat.created_at}</span><br>`;
             if( data.chat.reply_number!=null ){
                 html1 = `
-                            <button class="btn show_reply" value="${data.chat.id}" id="${data.chat.reply_number}" ><span> >> ${ data.chat.reply_number } </span> </button><br>
+                            <button class="btn show_reply" value="${data.chat.id}" id="${data.chat.reply_number}" ><span> >> ${ data.chat.reply_number_show } </span> </button><br>
                             <div class="reply${data.chat.id}"></div>                
                             <span class="content">${data.chat.content}</span>
                             </div>

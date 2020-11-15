@@ -21,7 +21,7 @@ class ChatReplyController extends Controller
     {
         $new_section = new Chat;
         $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = 1; 
+        $new_section->books_id = $booksId; 
         $new_section->content = $request->content;
         $new_section->save();
         $new_section->reply($id);

@@ -49,12 +49,16 @@ class WordsController extends Controller
         $request->validate([
             'name' => 'required|max:20',
         ]);
-        
-        $new_word = new Word;
-        $new_word->books_id = $bookId; 
-        $new_word->name=$request->name;
-        $new_word->save();
-        return back();
+        $book=Book::where('id',$bookId)->first();
+        if($book->user_id == \Auth::id()){
+            $new_word = new Word;
+            $new_word->books_id = $bookId; 
+            $new_word->name=$request->name;
+            $new_word->save();
+            return back();
+        }else{
+            return redirect('/');
+        }
     }
 
     /**
@@ -63,16 +67,25 @@ class WordsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($booksId,$id)
+    public function show(Request $request,$booksId,$id)
     {
+        $page_quantity=20;
         $book = Book::where('id',$booksId)->first();
         $word = Word::where('id',$id)->first();
-        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
-        foreach($chats as $chat){
+        if($request->page!=NULL){
+            $chats_all=SettingChat::where('word_id',$id)->count()-(($request->page)-1)*$page_quantity-1;
+        }else{
+            $chats_all=SettingChat::where('word_id',$id)->count()-1;  
+        } 
+        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate($page_quantity);
+        
+        foreach($chats as $key=>$chat){
+            $chat->number=$chats_all-$key;
             $reply_number = $chat->replies->first();
             $replier_number = $chat->repliers->count();
             if(!is_null($reply_number)){
                 $chat->reply_number = $reply_number->id;
+                $chat->reply_number_show=$chats->where('id','<',"$reply_number->id")->count();
             }
             if(!is_null($replier_number)){
                 $chat->replier_number = $replier_number;

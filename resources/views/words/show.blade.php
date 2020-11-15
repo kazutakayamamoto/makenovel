@@ -79,14 +79,14 @@
                         <div id="comment-data">
                             <div class="media comment-visible">
                                 <div class="media-body comment-body chat_child">
-                                    <span class="chat_id">{!! $chat->id !!}</span>
+                                    <span class="chat_id">{!! $chat->number !!}</span>
                                     <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span>
                                     <br>
                                     
                                     @if(!is_null($chat->reply_number))
                                     
                                     
-                                    <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number !!}</button><br>
+                                    <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number_show !!}</button><br>
                                     <div class="reply{{ $chat->id }}"></div>
                                     
                                     @endif
@@ -106,9 +106,9 @@
                         </div>
                         @endforeach
                     @endif
-                <!--<div class="item" data-id="{{ $word->id }}">-->
-                <!--    <div id="comment-data"></div>-->
-                <!--</div>-->
+                <div class="item" data-id="{{ $word->id }}">
+                    <div id="comment-data"></div>
+                </div>
                 <br>
                 <div class="col-lg-6">
                     {!! Form::open(['route' => ['settingchats.store',$books->id,$word->id]]) !!}

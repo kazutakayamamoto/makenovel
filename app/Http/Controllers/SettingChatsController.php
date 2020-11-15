@@ -13,15 +13,19 @@ class SettingChatsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($booksId,$id)
+    public function index(Request $request,$booksId,$id)
     {
-        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate(15);
+        $page_quantity=15;
+        $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate($page_quantity);
+        $chats_all=SettingChat::where('word_id',$id)->count()-(($request->page)-1)*$page_quantity-1;
         $books=Book::where('id',$booksId)->first();
-        foreach($chats as $chat){
+        foreach($chats as $key=>$chat){
+            $chat->number=$chats_all-$key;
             $reply_number = $chat->replies->first();
             $replier_number = $chat->repliers->count();
             if(!is_null($reply_number)){
                 $chat->reply_number = $reply_number->id;
+                $chat->reply_number_show=SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->where('id','<',"$reply_number->id")->count();
             }
             if(!is_null($replier_number)){
                 $chat->replier_number = $replier_number;
@@ -44,6 +48,7 @@ class SettingChatsController extends Controller
             $replier_number = $chat->repliers->count();
             if(!is_null($reply_number)){
                 $chat->reply_number = $reply_number->id;
+                
             }
             if(!is_null($replier_number)){
                 $chat->replier_number = $replier_number;
@@ -56,6 +61,8 @@ class SettingChatsController extends Controller
     public function getReply($id)
     {
         $chat = SettingChat::where('id',$id)->first();
+        $chats=SettingChat::where('word_id',$chat->word_id)->orderBy('created_at', 'desc')->get();
+        $chat->number=$chats->where('id','<',"$id")->count();
         $chat->content = nl2br(htmlspecialchars($chat->content));
         $name=$chat->user->name;
         $chat->name=$name;
@@ -63,6 +70,7 @@ class SettingChatsController extends Controller
         $replier_number = $chat->repliers->count();
         if(!is_null($reply_number)){
             $chat->reply_number = $reply_number->id;
+            $chat->reply_number_show=$chats->where('id','<',"$reply_number->id")->count();
         }
         if(!is_null($replier_number)){
             $chat->replier_number = $replier_number;

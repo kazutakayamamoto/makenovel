@@ -6,7 +6,7 @@
     <div class="row">
         <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
             @if(!empty($section_tree))
-                節題:{!! link_to_route('section_trees.index', $section_tree->content,[$books->id], ['class' => 'btn btn-primary']) !!}
+                <p>節題:{!! link_to_route('section_trees.index', $section_tree->content,[$books->id]) !!}</p>
             @endif
         <div class="box2 col-lg-12">
             @foreach ($sections as $section)

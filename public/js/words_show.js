@@ -16,7 +16,7 @@ function get_data() {
                 html1 = `
                             <div class="media comment-visible">
                                 <div class="media-body comment-body chat_child">
-                                    <span class="chat_id">${data.chats[i].id}</span>
+                                    <span class="chat_id">${data.chats[i].number}</span>
                                     <span class="chat_user">${data.chats[i].name}</span>
                                     <span class="chat_time">${data.chats[i].created_at}</span>
                                     <br>
@@ -24,7 +24,7 @@ function get_data() {
                 if( data.chats[i].reply_number!=null ){
                   html2=
                   `
-                  <button class="btn show_reply" value="${data.chats[i].id}" id="${data.chats[i].reply_number}" ><span> >> ${ data.chats[i].reply_number } </span> </button><br>
+                  <button class="btn show_reply" value="${data.chats[i].id}" id="${data.chats[i].reply_number}" ><span> >> ${ data.chats[i].reply_number_show } </span> </button><br>
                   <div class="reply${data.chats[i].id}"></div>
                   <span id="content">${ data.chats[i].content }</span>
                   </div>

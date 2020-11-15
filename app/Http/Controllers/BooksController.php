@@ -66,8 +66,12 @@ class BooksController extends Controller
         $request->validate([
             'section_nice_number' => 'required',
             'setting_nice_number'=>'required',
+            'title' => 'required',
+            'subject'=>'required',
         ]);
-        $books=Book::first();
+        $books=Book::where('id',$id)->first();
+        $books->title=$request->title;
+        $books->subject=$request->subject;
         $books->section_nice_number=$request->section_nice_number;
         $books->setting_nice_number=$request->setting_nice_number;
         $books->update();
