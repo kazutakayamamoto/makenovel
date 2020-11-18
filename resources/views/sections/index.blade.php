@@ -7,7 +7,9 @@
   var bookid = {{$books->id}};
 </script>
 <script type="module" src="/js/index.js"></script>
-    <p>メインページ</p>
+    <h2>{!! nl2br(e($books->title)) !!}</h2>
+    <p>本の内容:{!! nl2br(e($books->subject)) !!}</p>
+    
     {!! link_to_route('words.index', 'この小説の設定一覧',[$books->id]) !!}&nbsp;&nbsp;
     <i class="fas fa-tree"></i>{!! link_to_route('section_trees.index', 'セクションツリー', ['bookid'=>$books->id]) !!}
     <div class="row">
@@ -31,6 +33,14 @@
                                                 名前:{!! $section->user->name !!}
                                                 いいねの数:{{$section->nices_count}}
                                             </p>
+                                            <div class="section_title">
+                                                <p class="show_title_button">節題を見る</p>
+                                                <div class="section_title_content">
+                                                @if(!empty($section_trees->where('section_number',$i)->first()))
+                                                    {!! link_to_route('section_trees.show',nl2br(e($section_trees->where('section_number',$i)->first()->content)), [$books->id,$section_trees->where('section_number',$i)->first()->section_number]) !!}
+                                                @endif
+                                                </div>
+                                            </div>                                            
                                             {{-- 投稿内容 --}}
                                             <p class="mb-0">{!! nl2br(e($section->content)) !!}</p><br>
                                             @if(!empty($section->under_plot))
@@ -52,8 +62,9 @@
         <div class="box2 col-lg-6">
             <p>ここが最新節です。続きを書くときはここに書いてください。いいねが{!! $books->section_nice_number !!}を超えると新しい節ができます。</p>
             <div>
+            {{ $max_section_number }}節    
             @if(!empty($section_tree))
-                節題:{!! link_to_route('section_trees.index', $section_tree->content,[$books->id]) !!}
+                節題:{!! link_to_route('section_trees.show',nl2br(e($section_tree->content)), [$books->id,$section_tree->section_number],['class' => 'section_tree_another']) !!}
             @endif
             </div>
             <br>
@@ -73,7 +84,7 @@
                     <p><input type="checkbox" name="check" value="prop" id="prop">：伏線アリならチェックを入れる</p>
                     <div class="form-group box4">
                             <textarea name="under_plot" cols="50" rows="5" wrap="hard" placeholder="300文字でこの文章の意図や伏線などについて説明できます。" onkeyup="document.getElementById('yyyy').value=this.value.length"></textarea>
-                            <input type="text" id="yyyy">/300  
+                            <input id="yyyy">/300  
                     </div>
                  </div>
             {!! Form::submit('文章を投稿する', ['class' => 'btn btn-primary btn-block']) !!}
@@ -106,7 +117,7 @@
                                                 <p class="underplot_content">{!! nl2br(e($section->under_plot)) !!}</p>
                                                 </a>
                                         @endif
-                                        
+                                        @if($section->user_id!=1)
                                             @if ($section->is_nice($section->id,Auth::id()))
                                                 {!! Form::open(['route' => ['section.unnice',$books->id ,$section->id],'method' => 'delete']) !!}
                                                     <button class="nice unnice" type="button submit">いいねを外す</button>
@@ -116,6 +127,7 @@
                                                     <button class="nice" type="button submit">いいね</button>
                                                 {!! Form::close() !!}
                                             @endif
+                                        @endif
                                     </div>
                                 </div>
                             </li>

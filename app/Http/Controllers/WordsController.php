@@ -93,8 +93,8 @@ class WordsController extends Controller
         }
         
         $query = Setting::where('word_id',$id)->withCount('nices');
-        $settings_adapt = Setting::fromSub($query, 'alias')->where('nices_count','>',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
-        $settings_stay = Setting::fromSub($query, 'alias')->where('nices_count','<=',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
+        $settings_adapt = Setting::fromSub($query, 'alias')->where('nices_count','>=',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
+        $settings_stay = Setting::fromSub($query, 'alias')->where('nices_count','<',$book->setting_nice_number)->orderBy('nices_count','desc')->get();
         // $settings_adapt = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','>',1)->orderBy('nices_count','desc')->get();
         // $settings_stay = Setting::where('word_id',$id)->withCount('nices')->having('nices_count','<=',1)->orderBy('nices_count','desc')->get();
         

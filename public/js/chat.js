@@ -45,3 +45,10 @@ $(function() {
         get_data(this.id,this.value);
     });
 });
+
+$(function() {
+    $('.show_button').on("click", function(){
+        
+        $("."+this.id+"_show").toggle();
+    });
+});

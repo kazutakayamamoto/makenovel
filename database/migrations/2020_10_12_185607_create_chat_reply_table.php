@@ -13,10 +13,11 @@ class CreateChatReplyTable extends Migration
      */
     public function up()
     {
-        Schema::create('chat_reply', function (Blueprint $table) {
+        Schema::create('chat_replies', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('chat_id');
-            $table->unsignedBigInteger('reply_id');
+            $table->string('content',300);
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateChatReplyTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('chat_reply');
+        Schema::dropIfExists('chat_replies');
     }
 }

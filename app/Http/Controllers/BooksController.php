@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Book;
+use App\User;
+use App\Section;
+use App\SectionTree;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
@@ -53,7 +56,61 @@ class BooksController extends Controller
         $book->section_nice_number=$request->section_nice_number;
         $book->setting_nice_number=$request->setting_nice_number;
         $book->save();
-        return back();
+        
+        $booksId=$book->id;
+        $books=Book::where('id',$booksId)->first();
+
+        $user=User::first();
+
+        // メッセージ一覧を取得
+        $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
+        $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+        if(!empty($sections->where('section_number',$max_section_number)->first())){
+            $a= Nice::where('section_id',$sections->where('section_number',$max_section_number)->first()->id)->count();
+        }else{
+            $a=0;
+        }
+        if($max_section_number==NULL&&!is_null($user)){
+            $new_section = new Section;
+            $new_section->user_id = 1; 
+            $new_section->books_id = $booksId; 
+            $new_section->content = '節題にあったセクションを投稿してください';
+            $new_section->section_number=1;
+            $new_section->save();
+            $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
+            $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+            // return back();
+        }
+        if($a>$books->section_nice_number&&!is_null($user)){
+            $new_section = new Section;
+            $new_section->user_id = 1; 
+            $new_section->books_id = $booksId; 
+            $new_section->content = "いいねが一定値を超えたので新しいセクションが作られました。";
+            $new_section->section_number=$max_section_number+1;
+            $new_section->save();
+            $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
+            $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+            // return back();
+        }        
+
+
+        
+        if($request->sort=='new'){
+            $new_sections=Section::where('books_id',$booksId)->where('section_number',$max_section_number)->orderBy('created_at','desc')->get();
+        }else{
+            $new_sections=Section::where('books_id',$booksId)->where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->get();
+        }
+        $section_tree=SectionTree::where('books_id',$booksId)->where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->first();
+
+        
+        // メッセージ一覧ビューでそれを表示
+        return view('sections.index', [
+            'sections' => $sections,
+            'max_section_number'=>$max_section_number,
+            'new_sections'=>$new_sections,
+            'section_tree'=>$section_tree,
+            'books'=>$books,
+        ]);
     }
 
     public function edit($id)

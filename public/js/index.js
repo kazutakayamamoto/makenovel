@@ -47,21 +47,11 @@ function get_data() {
                                     <span class="chat_user">${data.chats[i].name}</span>
                                     <span class="chat_time">${data.chats[i].created_at}</span>
                                     <br>
-                        `;
-                if( data.chats[i].reply_number!=null ){
-                  html2=
-                  `
-                  <button class="btn show_reply" value="${data.chats[i].id}" id="${data.chats[i].reply_number}" ><span> >> ${ data.chats[i].reply_number_show } </span> </button><br>
-                  <div class="reply${data.chats[i].id}"></div>
-                  <span id="content">${ data.chats[i].content }</span>
-                  </div>
-                  </div>`;                  
-                }else{
-                  html2=`<span id="content">${ data.chats[i].content }</span>
+                                <span id="content">${ data.chats[i].content }</span>
                                 </div>
-                          </div>`;
-                }
-                html=html+html1+html2;
+                          </div>`
+                          ;
+                html=html+html1;
             }
             html=html_head+html;
             $("#comment-data").append(html);
@@ -85,4 +75,10 @@ $(function(){
     $('#inputlength').text(count);
   });
   
+});
+$(function() {
+    $('.section_title').on("click", function(){
+        $('.section_title_content').hide();
+        $(this).find('.section_title_content').toggle();
+    });
 });

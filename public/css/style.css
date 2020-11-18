@@ -76,7 +76,7 @@
     font-size:5px;
     font-family:none;
     color:#808080;
-    float:right;
+
 }
 .chat-comment{
     margin-top:30px;
@@ -155,4 +155,46 @@ width:100%;
 width:100%;
 
 }
+}
+.Replies{
+    margin-left:30px;
+    margin-bottom:20px;
+    background-color:#EEEEEE;
+    display:none;
+}
+.Reply{
+    padding-left:20px;
+    margin:20px 20px;
+    border-bottom : solid 1px #333 ;
+}
+.store_reply{
+    padding-top:10px;
+    padding-left:20px;
+    padding-bottom:10px;
+}
+.show_button{
+    font-size:12px;
+    padding-top: 20px;
+    padding-left:30px;
+    color: blue;
+    text-decoration: none;
+}
+.show_button:hover{
+    text-decoration: underline;
+    background-color:#EEEEEE;
+}
+.show_title_button{
+    font-size:14px;
+    /*float:right;*/
+    color: blue;
+    text-decoration: none;
+}
+.show_title_button:hover{
+    text-decoration: underline;
+    background-color:#CEF9DC;
+}
+.section_title_content{
+    font-size:16px;
+    display:none;
+    background-color:#CEF9DC;
 }

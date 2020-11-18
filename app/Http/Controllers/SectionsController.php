@@ -35,21 +35,51 @@ class SectionsController extends Controller
             'books' => $books,
         ]);        
     }
+    
+    /**
+     * システムが初期状態か否かを判断する。
+     * @param $booksId 判断対象の小説のID
+     * @return bool 初期状態の場合はTrue、それ以外はfalse
+     */
+    public function is_init($booksId)
+    {
+        //管理者ユーザの情報を取得
+        $user=User::first();
+        
+        //対象の小説の最大のセクションナンバーを取得する。
+        $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+        
+        //再ダイセクションすうがnullで、管理ユーザが設定されていない場合は初期状態と判断する。
+        if($max_section_number==NULL)
+            return false;
+            
+        if(is_null($user))
+            return false;
+            
+        return true;
+        
+    }
+    
     public function index(Request $request,$booksId)
     {
         $books=Book::where('id',$booksId)->first();
 
+        //★ここは、firstじゃなくて、IDなどで指定した方がいいかも。
         $user=User::first();
 
         // メッセージ一覧を取得
+        
+        //★コメントを詳細にした方がいいかも？
         $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
         $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+        
         
         if(!empty($sections->where('section_number',$max_section_number)->first())){
             $a= Nice::where('section_id',$sections->where('section_number',$max_section_number)->first()->id)->count();
         }else{
             $a=0;
         }
+        
         if($max_section_number==NULL&&!is_null($user)){
             $new_section = new Section;
             $new_section->user_id = 1; 
@@ -57,17 +87,23 @@ class SectionsController extends Controller
             $new_section->content = '節題にあったセクションを投稿してください';
             $new_section->section_number=1;
             $new_section->save();
-            return back();
+            $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
+            $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+            // return back();
         }
-        if($a>$books->section_nice_number&&!is_null($user)){
+        if($a>=$books->section_nice_number&&!is_null($user)){
             $new_section = new Section;
             $new_section->user_id = 1; 
             $new_section->books_id = $booksId; 
             $new_section->content = "いいねが一定値を超えたので新しいセクションが作られました。";
             $new_section->section_number=$max_section_number+1;
             $new_section->save();
-            return back();
-        }
+            $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
+            $max_section_number=Section::where('books_id',$booksId)->max('section_number');
+            // return back();
+        }        
+
+
         
         if($request->sort=='new'){
             $new_sections=Section::where('books_id',$booksId)->where('section_number',$max_section_number)->orderBy('created_at','desc')->get();
@@ -75,7 +111,7 @@ class SectionsController extends Controller
             $new_sections=Section::where('books_id',$booksId)->where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->get();
         }
         $section_tree=SectionTree::where('books_id',$booksId)->where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->first();
-
+        $section_trees=SectionTree::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
         
         // メッセージ一覧ビューでそれを表示
         return view('sections.index', [
@@ -84,6 +120,7 @@ class SectionsController extends Controller
             'new_sections'=>$new_sections,
             'section_tree'=>$section_tree,
             'books'=>$books,
+            'section_trees'=>$section_trees,
         ]);
     }
     /**

@@ -4,10 +4,11 @@
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.1.js"></script>    
     <div class="row">
-        {!! link_to_route('section_trees.index', 'セクションツリーに戻る', [$books->id],['class' => 'btn btn-primary']) !!}
-        
+        <div class="section_tree_show_wrapper">
+        <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
+        <p>{!! link_to_route('section_trees.index', 'セクションツリーに戻る', [$books->id]) !!}</p>
         <div class="box2 col-lg-12">
-            <p>いいねの順番で1番目がセクションツリーのページに反映されます。</p>
+            {{ $section_trees->first()->section_number }}節の節題
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['section_trees.store2',$books->id,$section_number]]) !!}
                 <div class="form-group setting-form">
@@ -28,7 +29,7 @@
                                         </p>
                                         {{-- 投稿内容 --}}
                                         <p class="mb-0">{!! nl2br(e($section_tree->content)) !!}</p>
-                                            
+                                            @if($section_tree->user_id!=1)
                                                 @if ($section_tree->is_nice($section_tree->id,Auth::id()))
                                                     {!! Form::open(['route' => ['section_tree.unnice',$books->id,$section_tree->id],'method' => 'delete']) !!}
                                                         <button class="nice unnice" type="button submit">いいねを外す</button>
@@ -38,7 +39,7 @@
                                                         <button class="nice" type="button submit">いいね</button>
                                                     {!! Form::close() !!}
                                                 @endif
-                                            
+                                            @endif
                                     </div>
                                 </div>
                             </li>
@@ -46,5 +47,6 @@
                     </ul>
             @endforeach
         </div>
+    </div>
     </div>
 @endsection

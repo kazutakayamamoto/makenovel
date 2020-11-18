@@ -16,19 +16,7 @@ class Chat extends Model
         return $this->belongsTo(User::class);
     }
     
-    public function replies()
-    {
-        return $this->belongsToMany(Chat::class, 'chat_reply', 'chat_id', 'reply_id')->withTimestamps();
-    }
-
-    public function repliers()
-    {
-        return $this->belongsToMany(Chat::class, 'chat_reply', 'reply_id', 'chat_id')->withTimestamps();
-    }
-
-    public function reply($chatId)
-    {
-        $this->replies()->attach($chatId);
-        return true;
+    public function replies(){
+        return $this->hasMany(ChatReply::class);
     }
 }

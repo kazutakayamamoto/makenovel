@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Section;
 use Illuminate\Http\Request;
 use App\Nice;
 
@@ -35,6 +35,10 @@ class SectionNiceController extends Controller
      */
     public function store($booksId,$id)
     {
+        $section=Section::where('id',$id)->first();
+        if($section->user_id==1){
+            return back();
+        }
         Nice::create([
             'section_id'=>$id,
             'user_id'=>\Auth::id(),
@@ -85,6 +89,11 @@ class SectionNiceController extends Controller
      */
     public function destroy($booksId,$id)
     {
+        $section=Section::where('id',$id)->first();
+        if($section->user_id==1){
+            return back();
+        }
+
         $nice=Nice::where('section_id',$id)->where('user_id',\Auth::id())->first();
         $nice->delete();
         //return redirect('/');

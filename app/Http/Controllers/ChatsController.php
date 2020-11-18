@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use App\Chat;
 use App\Book;
+use App\ChatReply;
 use Illuminate\Http\Request;
 
 class ChatsController extends Controller
@@ -16,20 +17,17 @@ class ChatsController extends Controller
     {
         $page_quantity=5;
         $chats = Chat::where('books_id',$booksId)->orderBy('created_at', 'desc')->paginate($page_quantity);
-        $chats_all=Chat::where('books_id',$booksId)->count()-(($request->page)-1)*$page_quantity-1;
+        if($request->page==NULL){
+            $chats_all=Chat::where('books_id',$booksId)->count()-1;
+        }else{
+            $chats_all=Chat::where('books_id',$booksId)->count()-(($request->page)-1)*$page_quantity-1;
+        }
         $books=Book::where('id',$booksId)->first();
         
         foreach($chats as $key=>$chat){
+            $chat->chat_replies=ChatReply::where('chat_id',$chat->id)->get();
+            $chat->reply_amount=count($chat->chat_replies);
             $chat->number=$chats_all-$key;
-            $reply_number = $chat->replies->first();
-            $replier_number = $chat->repliers->count();
-            if(!is_null($reply_number)){
-                $chat->reply_number = $reply_number->id;
-                $chat->reply_number_show=Chat::where('books_id',$booksId)->orderBy('created_at', 'desc')->where('id','<',"$reply_number->id")->count();
-            }
-            if(!is_null($replier_number)){
-                $chat->replier_number = $replier_number;
-            }
         }
         return view('chats.index', [
             'chats' => $chats,
@@ -46,16 +44,6 @@ class ChatsController extends Controller
             $name=$chat->user->name;
             $chat->name=$name;
             $chat->content = nl2br(htmlspecialchars($chat->content));
-            
-            $reply_number = $chat->replies->first();
-            $replier_number = $chat->repliers->count();
-            if(!is_null($reply_number)){
-                $chat->reply_number = $reply_number->id;
-                $chat->reply_number_show=$chats->where('id','<',"$reply_number->id")->count();
-            }
-            if(!is_null($replier_number)){
-                $chat->replier_number = $replier_number;
-            }
         }
         $json = ["chats" => $chats];
         return response()->json($json);

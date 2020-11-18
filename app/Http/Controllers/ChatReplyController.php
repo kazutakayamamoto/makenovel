@@ -1,33 +1,21 @@
 <?php
 
 namespace App\Http\Controllers;
-use App\Chat;
-use App\Book;
+use App\ChatReply;
 use Illuminate\Http\Request;
 
 class ChatReplyController extends Controller
 {
-    public function create($booksId,$id)
+    public function store(Request $request,$booksId,$chatId)
     {
-        $books=Book::where('id',$booksId)->first();
-        return view('chats.reply', [
-            'chat_id' => $id,
-            'books'=>$books,
+        $request->validate([
+            'content' => 'required|max:300',
         ]);
+        $new_chat = new ChatReply;
+        $new_chat->user_id = \Auth::id(); 
+        $new_chat->chat_id = $chatId; 
+        $new_chat->content = $request->content;
+        $new_chat->save();
+        return back();        
     }
-            
-    
-    public function store(Request $request,$booksId,$id)
-    {
-        $new_section = new Chat;
-        $new_section->user_id = \Auth::id(); 
-        $new_section->books_id = $booksId; 
-        $new_section->content = $request->content;
-        $new_section->save();
-        $new_section->reply($id);
-        return redirect()->action(
-            'ChatsController@index',[$booksId]
-        );         
-    }
-    
 }
