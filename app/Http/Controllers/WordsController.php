@@ -6,7 +6,7 @@ use App\Setting;
 use App\SettingNice;
 use App\SettingChat;
 use App\Book;
-
+use App\SettingChatReply;
 use Illuminate\Http\Request;
 
 class WordsController extends Controller
@@ -69,7 +69,7 @@ class WordsController extends Controller
      */
     public function show(Request $request,$booksId,$id)
     {
-        $page_quantity=20;
+        $page_quantity=10;
         $book = Book::where('id',$booksId)->first();
         $word = Word::where('id',$id)->first();
         if($request->page!=NULL){
@@ -80,16 +80,9 @@ class WordsController extends Controller
         $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate($page_quantity);
         
         foreach($chats as $key=>$chat){
+            $chat->chat_replies=SettingChatReply::where('setting_chat_id',$chat->id)->get();
+            $chat->reply_amount=count($chat->chat_replies);
             $chat->number=$chats_all-$key;
-            $reply_number = $chat->replies->first();
-            $replier_number = $chat->repliers->count();
-            if(!is_null($reply_number)){
-                $chat->reply_number = $reply_number->id;
-                $chat->reply_number_show=$chats->where('id','<',"$reply_number->id")->count();
-            }
-            if(!is_null($replier_number)){
-                $chat->replier_number = $replier_number;
-            }
         }
         
         $query = Setting::where('word_id',$id)->withCount('nices');

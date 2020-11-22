@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Word;
 use App\SettingChat;
 use App\Book;
+use App\SettingChatReply;
 use Illuminate\Http\Request;
 
 class SettingChatReplyController extends Controller
@@ -24,13 +25,11 @@ class SettingChatReplyController extends Controller
         $request->validate([
             'content' => 'required|max:300',
         ]);
-        $new_section = new SettingChat;
-        $new_section->user_id = \Auth::id(); 
-        $new_section->word_id = $word_id; 
-        $new_section->content = $request->content;
-        $new_section->save();
-        $new_section->reply($id);
-        $word=Word::where('id',$word_id)->first();
+        $new_chat = new SettingChatReply;
+        $new_chat->user_id = \Auth::id(); 
+        $new_chat->setting_chat_id = $id; 
+        $new_chat->content = $request->content;
+        $new_chat->save();
         return redirect()->action(
             'WordsController@show',[$booksId,'word' => $word_id]
         );  

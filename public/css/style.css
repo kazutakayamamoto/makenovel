@@ -12,6 +12,13 @@
 .box2_under{
    position:relative;
 }
+.section_form{
+    padding-top:20px;
+    padding-left:20px;
+    padding-bottom:5px;
+    border : solid 1px #333 ; 
+    box-shadow: 2px 2px 4px gray;
+}
 .box3{
     margin-top: 20px;
     width:450px;
@@ -125,10 +132,16 @@
     position: fixed;
 }
 .underplot_show{
+    margin-left:12px;
+    font-size:15px;
     cursor: pointer;
     border-bottom: solid 3px #87CEFA;
 }
-
+.underplot_content{
+    margin-top:5px;
+    background-color:#FFEEFF;
+    margin-left:12px;
+}
 .reply_content{
   width:450px;
   height:auto;
@@ -157,25 +170,28 @@ width:100%;
 }
 }
 .Replies{
-    margin-left:30px;
+    margin-left:10px;
     margin-bottom:20px;
     background-color:#EEEEEE;
+    overflow-y: scroll; 
+    max-height:500px;
     display:none;
 }
 .Reply{
-    padding-left:20px;
+    padding-left:10px;
     margin:20px 20px;
     border-bottom : solid 1px #333 ;
 }
 .store_reply{
     padding-top:10px;
-    padding-left:20px;
+    padding-left:10px;
+    padding-right:10px;
     padding-bottom:10px;
 }
 .show_button{
     font-size:12px;
     padding-top: 20px;
-    padding-left:30px;
+    padding-left:5px;
     color: blue;
     text-decoration: none;
 }
@@ -197,4 +213,8 @@ width:100%;
     font-size:16px;
     display:none;
     background-color:#CEF9DC;
+}
+.words_content{
+    font-size:30px;
+
 }

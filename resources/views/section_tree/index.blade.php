@@ -2,7 +2,7 @@
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-    <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
+    <h3>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</h3>
     <p>ここでは50字までの短い文章でこの物語の方向性を決定していきます。</p>
     <p>メインページやほかの案を見るでの節題はここの文章が採用されるので先にここを進めてください。</p>
     <p>メインページの内容が軽くわかるような感じにしたいです。</p>
@@ -11,7 +11,7 @@
          <div class="col-sm-12">
             @for ($i = 1; $i < $max_section_number+1; $i++)
                     @foreach ($section_trees->where('section_number',$i) as $section_tree)
-                        <p class="section_tree_leaf col-sm-10">{!! $section_tree->section_number !!}.{!! $section_tree->content !!}
+                        <p class="section_tree_leaf col-sm-10">{!! $section_tree->section_number !!}.{!! nl2br(e($section_tree->content)) !!}
                         <br>
                         {!! link_to_route('section_trees.show','他の案を見る', [$books->id,$section_tree->section_number],['class' => 'section_tree_another']) !!}
                         </p>

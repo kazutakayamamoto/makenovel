@@ -11,7 +11,7 @@
             <div class="media comment-visible">
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat->number !!}</span>
-                    <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span><br>
+                    <span class="chat_user">{!! nl2br(e($chat->user->name)) !!}</span><span class="chat_time">{!! $chat->created_at !!}</span><br>
                     <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
                     
                     <!--ここから返信を表示-->
@@ -20,7 +20,7 @@
                         <div class="Replies {{ $chat->id }}_show">
                             @foreach ($chat->chat_replies as $reply)
                                 <div class="Reply">
-                                <span class="chat_user">{!! $reply->user->name !!}</span><span class="chat_time">{!! $reply->created_at !!}</span><br>
+                                <span class="chat_user">{!! nl2br(e($reply->user->name)) !!}</span><span class="chat_time">{!! $reply->created_at !!}</span><br>
                                 <span id="content">{!! nl2br(e($reply->content)) !!}</span><br>
                                 </div>
                             @endforeach

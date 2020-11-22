@@ -13,19 +13,7 @@ class SettingChat extends Model
     public function word(){
         return $this->belongsTo(Word::class);
     }
-    public function replies()
-    {
-        return $this->belongsToMany(SettingChat::class, 'chat_reply', 'chat_id', 'reply_id')->withTimestamps();
-    }
-
-    public function repliers()
-    {
-        return $this->belongsToMany(SettingChat::class, 'chat_reply', 'reply_id', 'chat_id')->withTimestamps();
-    }
-
-    public function reply($chatId)
-    {
-        $this->replies()->attach($chatId);
-        return true;
+    public function replies(){
+        return $this->hasMany(SettingChatReply::class);
     }
 }

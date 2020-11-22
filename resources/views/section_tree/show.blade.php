@@ -3,12 +3,16 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/style.css') }}">
 <script type="module" src="/js/index.1.js"></script>    
-    <div class="row">
+    <div class="row"]
         <div class="section_tree_show_wrapper">
-        <p>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</p>
+        <div>
+        <h3>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</h3>
         <p>{!! link_to_route('section_trees.index', 'セクションツリーに戻る', [$books->id]) !!}</p>
+        </div>
         <div class="box2 col-lg-12">
+        
             {{ $section_trees->first()->section_number }}節の節題
+            
             <div class="show_plus_section"><i class="far fa-2x fa-plus-square"></i>&nbsp;&nbsp;追加する</div>
             {!! Form::open(['route' => ['section_trees.store2',$books->id,$section_number]]) !!}
                 <div class="form-group setting-form">
@@ -17,6 +21,7 @@
                      {!! Form::submit('投稿する', ['class' => 'btn btn-primary btn-block']) !!}
                 </div>
             {!! Form::close() !!}
+            
             @foreach ($section_trees as $section_tree)
                     <ul class="list-unstyled">
                         <div class="box3">
@@ -24,7 +29,7 @@
                                 <div class="media-body">
                                     <div>
                                         <p>
-                                            {!! '名前:' !!}{!! $section_tree->user->name !!}
+                                            {!! '名前:' !!}{!! nl2br(e($section_tree->user->name)) !!}
                                             {!! 'いいねの数:' !!}{{$section_tree->count_nice($section_tree->id)}}
                                         </p>
                                         {{-- 投稿内容 --}}

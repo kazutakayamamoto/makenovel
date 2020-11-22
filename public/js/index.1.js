@@ -20,3 +20,10 @@ $(function() {
       $('.setting-form').toggle();
     });
 });
+$(function() {
+  
+    $('.show_button').on("click", function(){
+        $('.Replies').hide();
+        $("."+this.id+"_show").toggle();
+    });
+});

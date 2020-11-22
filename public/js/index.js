@@ -78,7 +78,6 @@ $(function(){
 });
 $(function() {
     $('.section_title').on("click", function(){
-        $('.section_title_content').hide();
         $(this).find('.section_title_content').toggle();
     });
 });

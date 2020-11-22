@@ -15,7 +15,7 @@ class SettingChatsController extends Controller
      */
     public function index(Request $request,$booksId,$id)
     {
-        $page_quantity=15;
+        $page_quantity=10;
         $chats = SettingChat::where('word_id',$id)->orderBy('created_at', 'desc')->paginate($page_quantity);
         $chats_all=SettingChat::where('word_id',$id)->count()-(($request->page)-1)*$page_quantity-1;
         $books=Book::where('id',$booksId)->first();

@@ -8,7 +8,7 @@
             <ul>
             @foreach ($books as $book)
                 @if (count($books) > 0)
-                    <li><p>{!! link_to_route('section.main', nl2br(e($book->title)),[$book->id]) !!}</p>
+                    <li><h4>{!! link_to_route('section.main', nl2br(e($book->title)),[$book->id]) !!}</h4>
                     {!! nl2br(e($book->subject)) !!}
                     </li>    
                 @endif            

@@ -42,7 +42,7 @@ class ChatsController extends Controller
         foreach($chats as $key=>$chat){
             $chat->number=$chats_all-$key;
             $name=$chat->user->name;
-            $chat->name=$name;
+            $chat->name=nl2br(htmlspecialchars($name));
             $chat->content = nl2br(htmlspecialchars($chat->content));
         }
         $json = ["chats" => $chats];
@@ -57,7 +57,7 @@ class ChatsController extends Controller
         $chat->number=count($chats->where('id','<',"$chat->id"));
         $chat->content = nl2br(htmlspecialchars($chat->content));
         $name=$chat->user->name;
-        $chat->name=$name;
+        $chat->name=nl2br(htmlspecialchars($name));
         $reply_number = $chat->replies->first();
         $replier_number = $chat->repliers->count();
         if(!is_null($reply_number)){

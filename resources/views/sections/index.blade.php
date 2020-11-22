@@ -30,7 +30,7 @@
                                         <div>
                                             <p>
                                                 {!! $i. '節' !!}
-                                                名前:{!! $section->user->name !!}
+                                                名前:{!! nl2br(e($section->user->name)) !!}
                                                 いいねの数:{{$section->nices_count}}
                                             </p>
                                             <div class="section_title">
@@ -64,7 +64,7 @@
             <div>
             {{ $max_section_number }}節    
             @if(!empty($section_tree))
-                節題:{!! link_to_route('section_trees.show',nl2br(e($section_tree->content)), [$books->id,$section_tree->section_number],['class' => 'section_tree_another']) !!}
+                節題:{!! link_to_route('section_trees.show',nl2br(e($section_tree->content)), [$books->id,$section_tree->section_number]) !!}
             @endif
             </div>
             <br>
@@ -104,7 +104,7 @@
                                 <div class="media-body">
                                     <div>
                                         <p>
-                                            {!! '名前:' !!}{!! $section->user->name !!}
+                                            {!! '名前:' !!}{!! nl2br(e($section->user->name)) !!}
                                             {!! 'いいねの数:' !!}{{$section->count_nice($section->id)}}
                                         </p>
                                         <p>{!! '投稿時間:' !!}{!! $section->created_at!!}</p>

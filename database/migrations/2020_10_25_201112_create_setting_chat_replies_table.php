@@ -15,8 +15,9 @@ class CreateSettingChatRepliesTable extends Migration
     {
         Schema::create('setting_chat_replies', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('setting_chat_id');
-            $table->unsignedBigInteger('reply_id');
+            $table->string('content',300);
             $table->timestamps();
         });
     }

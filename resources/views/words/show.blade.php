@@ -5,8 +5,9 @@
 <!--<script type="module" src="/js/words_show.js"></script>-->
 <script type="module" src="/js/index.1.js"></script>
 
-    {!! link_to_route('words.index', '設定一覧に戻る',[$books->id],['class' => 'btn btn-primary']) !!}
-    <p>{!! '名前:' !!}{!! $word->name !!}</p>
+    <h3>{!! link_to_route('section.main', nl2br(e($books->title)),[$books->id]) !!}のメインページへ戻る</h3>
+    {!! link_to_route('words.index', '設定一覧に戻る',[$books->id]) !!}
+    <p>{!! '名前:' !!}{!! nl2br(e($word->name)) !!}</p>
     <div class="row">
         
         <div class="box2 col-lg-6">
@@ -71,7 +72,7 @@
                 <div class="col-lg-12 chat-comment">
                 <!--<i class="fas fa-arrow-alt-circle-up"></i>{!! link_to_route('chats.index', '過去のチャットを見る',[$books->id], ['class' => 'btn btn-primary']) !!}-->
                 
-                <p>{!! $word->name !!}について語るスレ</p>
+                <p>{!! nl2br(e($word->name)) !!}について語るスレ</p>
                 <script type="module" src="/js/chat.2.js"></script>
                     {{ $chats->links() }}
                     @if (count($chats) > 0)
@@ -80,37 +81,52 @@
                             <div class="media comment-visible">
                                 <div class="media-body comment-body chat_child">
                                     <span class="chat_id">{!! $chat->number !!}</span>
-                                    <span class="chat_user">{!! $chat->user->name !!}</span><span class="chat_time">{!! $chat->created_at !!}</span>
-                                    <br>
-                                    
-                                    @if(!is_null($chat->reply_number))
-                                    
-                                    
-                                    <button class="btn show_reply" value="{{ $chat->id }}" id="{{ $chat->reply_number }}" > >> {!! $chat->reply_number_show !!}</button><br>
-                                    <div class="reply{{ $chat->id }}"></div>
-                                    
-                                    @endif
+                                    <span class="chat_user">{!! nl2br(e($chat->user->name)) !!}</span>
+                                    <span class="chat_time">{!! $chat->created_at !!}</span><br>
                                     <span id="content">{!! nl2br(e($chat->content)) !!}</span><br>
-                                    @if(!empty($chat->replier_number))
-                                    {!! Form::open(['route' => ['settingchatreply.show',$books->id,$chat->id]]) !!}
-                                        <button class="btn btn-reply" type="button submit">{!! $chat->replier_number !!}件の返信</button>
-                                    {!! Form::close() !!}
-                                    @endif
-                                    
-                                    
-                                    {!! Form::open(['route' => ['settingchatsreply.create',$books->id,$word->id,$chat->id]]) !!}
-                                        <button class="nice unnice" type="button submit">返信する</button>
-                                    {!! Form::close() !!}
+                
+                                    <!--ここから返信を表示-->
+                                        <p class="show_button" id="{{ $chat->id }}">{{$chat->reply_amount}}件の返信</p>
+                                        <div class="Replies {{ $chat->id }}_show">
+                                            @foreach ($chat->chat_replies as $reply)
+                                                <div class="Reply">
+                                                <span class="chat_user">{!! nl2br(e($reply->user->name)) !!}</span><span class="chat_time">{!! $reply->created_at !!}</span><br>
+                                                <span id="content">{!! nl2br(e($reply->content)) !!}</span><br>
+                                                </div>
+                                            @endforeach
+                                            <div class="store_reply">
+                                            {!! Form::open(['route' => ['settingchatsreply.store', $books->id,$word->id,$chat->id]]) !!}
+                                                <textarea onpaste="alert('ペースト禁止です'); return false;" name="content" id="chat_content_input" cols="50" rows="5"  wrap="off" onkeyup="document.getElementById('zzzz').value=this.value.length"></textarea>
+                                                <p><input type="text" id="zzzz">/300</p>
+                                                <script>
+                                                function lineCheck(e) {
+                                                    var ta = document.getElementById("chat_content_input");
+                                                    var row = ta.getAttribute("rows");
+                                                    var r = (ta.value.split("\n")).length;
+                                                    if (document.all) {
+                                                        if (r >= row && window.event.keyCode === 13) { //keyCode for IE
+                                                            return false; //入力キーを無視
+                                                        }
+                                                    } else {
+                                                        if (r >= row && e.which === 13) { //which for NN
+                                                            return false;
+                                                        }
+                                                    }
+                                                }
+                                                window.document.onkeypress = lineCheck;
+                                            </script>
+                                                {!! Form::submit('返信する', ['class' => "btn unnice"]) !!}
+                                            {!! Form::close() !!}
+                                            </div>
+                                        </div>
+                                    <!--返信ここまで-->                                    
+                
+                                    <br>
                                 </div>
                             </div>
                         </div>
                         @endforeach
                     @endif
-                <div class="item" data-id="{{ $word->id }}">
-                    <div id="comment-data"></div>
-                </div>
-                <br>
-                <div class="col-lg-6">
                     {!! Form::open(['route' => ['settingchats.store',$books->id,$word->id]]) !!}
                     <div class="form-group">
                         <textarea name="content"  wrap="hard" cols="50" rows="5" id="word_chat_content_input" onkeyup="document.getElementById('xxxx').value=this.value.length"></textarea>
@@ -138,5 +154,4 @@
                 </div>
             </div>
     </div>
-    
 @endsection

@@ -71,6 +71,13 @@ class BooksController extends Controller
             $a=0;
         }
         if($max_section_number==NULL&&!is_null($user)){
+            $new_section_tree=new SectionTree;
+            $new_section_tree->user_id=1;
+            $new_section_tree->books_id=$booksId;
+            $new_section_tree->section_number=1;
+            $new_section_tree->content='いいねが一定値を超えたので新しいセクションツリーが作られました。 投稿してください。';
+            $new_section_tree->save();
+        
             $new_section = new Section;
             $new_section->user_id = 1; 
             $new_section->books_id = $booksId; 
@@ -81,19 +88,6 @@ class BooksController extends Controller
             $max_section_number=Section::where('books_id',$booksId)->max('section_number');
             // return back();
         }
-        if($a>$books->section_nice_number&&!is_null($user)){
-            $new_section = new Section;
-            $new_section->user_id = 1; 
-            $new_section->books_id = $booksId; 
-            $new_section->content = "いいねが一定値を超えたので新しいセクションが作られました。";
-            $new_section->section_number=$max_section_number+1;
-            $new_section->save();
-            $sections = Section::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
-            $max_section_number=Section::where('books_id',$booksId)->max('section_number');
-            // return back();
-        }        
-
-
         
         if($request->sort=='new'){
             $new_sections=Section::where('books_id',$booksId)->where('section_number',$max_section_number)->orderBy('created_at','desc')->get();
@@ -102,9 +96,10 @@ class BooksController extends Controller
         }
         $section_tree=SectionTree::where('books_id',$booksId)->where('section_number',$max_section_number)->withCount('nices')->orderBy('nices_count','desc')->first();
 
-        
+        $section_trees = SectionTree::where('books_id',$booksId)->withCount('nices')->orderBy('nices_count','desc')->get();
         // メッセージ一覧ビューでそれを表示
         return view('sections.index', [
+            'section_trees'=>$section_trees,
             'sections' => $sections,
             'max_section_number'=>$max_section_number,
             'new_sections'=>$new_sections,

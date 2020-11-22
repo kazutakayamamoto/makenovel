@@ -65,7 +65,7 @@ class SectionsController extends Controller
         $books=Book::where('id',$booksId)->first();
 
         //★ここは、firstじゃなくて、IDなどで指定した方がいいかも。
-        $user=User::first();
+        $user=User::where('id',1)->first();
 
         // メッセージ一覧を取得
         
@@ -157,7 +157,7 @@ class SectionsController extends Controller
             'under_plot'=>'max:300',
         ]);
         
-        $max_section_number=Section::max('section_number');
+        $max_section_number=Section::where('books_id',$booksId)->max('section_number');
         if($max_section_number==null)$max_section_number=1;
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $new_section = new Section;
@@ -175,8 +175,9 @@ class SectionsController extends Controller
         // バリデーション
         $request->validate([
             'content' => 'required|max:300',
+            'under_plot'=>'max:300',
         ]);
-        $max_section_number=Section::max('section_number');
+        $max_section_number=Section::where('books_id',$booksId)->max('section_number');
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->sections()->create([
             'content' => $request->content,
@@ -192,12 +193,14 @@ class SectionsController extends Controller
         // バリデーション
         $request->validate([
             'content' => 'required|max:300',
+            'under_plot'=>'max:300',
         ]);
         // 認証済みユーザ（閲覧者）の投稿として作成（リクエストされた値をもとに作成）
         $request->user()->sections()->create([
             'content' => $request->content,
             'section_number'=>0,
             'books_id'=>$booksId,
+            'under_plot'=>$request->under_plot,
         ]);
 
         return back();

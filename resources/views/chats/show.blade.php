@@ -9,7 +9,7 @@
             <div class="media comment-visible">
                 <div class="media-body comment-body chat_child">
                     <span class="chat_id">{!! $chat_mother->id !!}</span>
-                    <span class="chat_user">{!! $chat_mother->user->name !!}</span><span class="chat_time">{!! $chat_mother->created_at !!}</span><br>
+                    <span class="chat_user">{!! nl2br(e($chat_mother->user->name)) !!}</span><span class="chat_time">{!! $chat_mother->created_at !!}</span><br>
                     
                     @if(!is_null($chat_mother->reply_number))
                     
